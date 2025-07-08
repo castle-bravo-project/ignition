@@ -31,6 +31,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onLoadUIAssessment,
 }) => {
   const [name, setName] = useState(projectName);
+  const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
   const [repoUrl, setRepoUrl] = useState(githubSettings.repoUrl);
   const [pat, setPat] = useState(githubSettings.pat);
   const [filePath, setFilePath] = useState(githubSettings.filePath);
@@ -47,6 +48,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   const hasNameChanged = name.trim() !== projectName;
+  const hasApiKeyChanged = apiKey.trim() !== (localStorage.getItem('gemini_api_key') || '');
   const hasGithubSettingsChanged =
     repoUrl.trim() !== githubSettings.repoUrl ||
     pat.trim() !== githubSettings.pat ||
@@ -57,6 +59,18 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const handleSaveName = () => {
     if (hasNameChanged && name.trim()) {
       onUpdateProjectName(name.trim());
+    }
+  };
+
+  const handleSaveApiKey = () => {
+    if (hasApiKeyChanged) {
+      if (apiKey.trim()) {
+        localStorage.setItem('gemini_api_key', apiKey.trim());
+        alert('✅ Gemini API key saved successfully! AI features are now enabled.');
+      } else {
+        localStorage.removeItem('gemini_api_key');
+        alert('🔑 API key removed. AI features will be disabled.');
+      }
     }
   };
 
@@ -240,6 +254,42 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                   Save
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-900 border border-gray-800 rounded-lg">
+          <div className="p-6">
+            <h2 className="text-xl font-semibold text-white">AI Configuration</h2>
+            <p className="text-sm text-gray-400 mt-1">Configure your Gemini API key to enable AI-powered features.</p>
+          </div>
+          <div className="border-t border-gray-800 p-6 space-y-4">
+            <div>
+              <label htmlFor="apiKey" className="block text-sm font-medium text-gray-300 mb-2">
+                Gemini API Key
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  id="apiKey"
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="Enter your Gemini API key..."
+                  className="flex-grow bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <button
+                  onClick={handleSaveApiKey}
+                  disabled={!hasApiKeyChanged}
+                  className="flex items-center gap-2 bg-brand-primary text-white font-semibold px-4 py-2 rounded-lg hover:bg-brand-secondary transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed"
+                >
+                  <Save size={16} />
+                  Save
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Get your API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Google AI Studio</a>.
+                Stored securely in your browser's local storage.
+              </p>
             </div>
           </div>
         </div>

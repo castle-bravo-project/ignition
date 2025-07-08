@@ -14,15 +14,16 @@ import {
 const model = 'gemini-2.5-flash-preview-04-17';
 
 const getAiClient = (): GoogleGenAI | undefined => {
-  // Check for API key in both Node.js and browser environments
+  // Check for API key in localStorage first, then environment variables (for development)
   const apiKey =
+    (typeof window !== 'undefined' && localStorage.getItem('gemini_api_key')) ||
     (typeof process !== 'undefined' && process.env?.API_KEY) ||
     (typeof import.meta !== 'undefined' &&
       import.meta.env?.VITE_GEMINI_API_KEY);
 
   if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
     console.warn(
-      'API_KEY environment variable not set or is placeholder. AI features will be disabled. Please set VITE_GEMINI_API_KEY in your .env file.'
+      'Gemini API key not found. Please set your API key in Settings to enable AI features.'
     );
     return undefined;
   }

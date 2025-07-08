@@ -6,9 +6,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
     base: process.env.NODE_ENV === 'production' ? '/ignition/' : '/',
+    // API keys are now handled via localStorage for security
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || mode),
     },
     resolve: {
       alias: {
