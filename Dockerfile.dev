@@ -1,0 +1,41 @@
+# Development Dockerfile for Ignition AI Project Dashboard
+FROM node:20-alpine
+
+# Install development tools
+RUN apk add --no-cache \
+    git \
+    curl \
+    bash \
+    && rm -rf /var/cache/apk/*
+
+# Set working directory
+WORKDIR /app
+
+# Create non-root user for development
+RUN addgroup -g 1001 -S ignition && \
+    adduser -S ignition -u 1001 -G ignition
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm ci && npm cache clean --force
+
+# Change ownership of node_modules
+RUN chown -R ignition:ignition /app
+
+# Switch to non-root user
+USER ignition
+
+# Copy source code (this will be overridden by volume mount in development)
+COPY --chown=ignition:ignition . .
+
+# Expose development port
+EXPOSE 3000
+
+# Health check for development
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/ || exit 1
+
+# Default command for development
+CMD ["npm", "run", "dev"]

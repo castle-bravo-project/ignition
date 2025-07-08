@@ -1,0 +1,42 @@
+{
+  "name": "Ignition - AI Compliance Platform",
+  "description": "AI-powered compliance and project management platform with meta-compliance capabilities. Supports ISO 27001, SOC 2, HIPAA, FDA standards with automated audit trails and process optimization.",
+  "url": "https://castle-bravo-project.github.io/ignition-github-app/",
+  "public": true,
+  "redirect_url": "https://castle-bravo-project.github.io/ignition-github-app/auth/callback",
+  "setup_url": "https://castle-bravo-project.github.io/ignition-github-app/setup",
+  "webhook_events": [
+    "check_suite",
+    "check_run",
+    "issue_comment",
+    "issues",
+    "pull_request",
+    "pull_request_review",
+    "push",
+    "repository",
+    "repository_vulnerability_alert",
+    "workflow_run"
+  ],
+  "permissions": {
+    "actions": "read",
+    "checks": "write",
+    "contents": "write",
+    "issues": "write",
+    "metadata": "read",
+    "pull_requests": "write",
+    "repository_projects": "read",
+    "vulnerability_alerts": "read",
+    "workflows": "read"
+  },
+  "default_events": [
+    "issues",
+    "pull_request",
+    "push"
+  ],
+  "default_permissions": {
+    "contents": "read",
+    "issues": "write",
+    "pull_requests": "write",
+    "metadata": "read"
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "name": "Ignition AI Project Dashboard",
+  "url": "https://ignition.ai",
+  "hook_attributes": {
+    "url": "https://api.ignition.ai/webhooks/github",
+    "active": true
+  },
+  "redirect_url": "https://app.ignition.ai/auth/github/callback",
+  "callback_urls": [
+    "https://app.ignition.ai/auth/github/callback"
+  ],
+  "setup_url": "https://app.ignition.ai/setup",
+  "description": "Enterprise-grade meta-compliance project management and organizational intelligence platform. Provides AI-powered assessment generation, multi-standard compliance management (ISO 27001, SOC 2, HIPAA, FDA), and comprehensive project oversight capabilities.",
+  "external_url": "https://ignition.ai",
+  "public": true,
+  "default_events": [
+    "push",
+    "pull_request",
+    "pull_request_review",
+    "pull_request_review_comment",
+    "issues",
+    "issue_comment",
+    "repository",
+    "release",
+    "create",
+    "delete",
+    "fork",
+    "star",
+    "watch",
+    "security_advisory",
+    "dependabot_alert",
+    "code_scanning_alert",
+    "secret_scanning_alert",
+    "vulnerability_alert",
+    "installation",
+    "installation_repositories",
+    "organization",
+    "member",
+    "membership",
+    "team",
+    "team_add",
+    "repository_vulnerability_alert"
+  ],
+  "default_permissions": {
+    "contents": "read",
+    "issues": "write",
+    "pull_requests": "write",
+    "security_events": "read",
+    "vulnerability_alerts": "read",
+    "metadata": "read",
+    "actions": "read",
+    "checks": "read",
+    "deployments": "read",
+    "environments": "read",
+    "pages": "read",
+    "repository_hooks": "read",
+    "statuses": "read",
+    "administration": "read",
+    "members": "read",
+    "organization_administration": "read",
+    "organization_hooks": "read",
+    "organization_plan": "read",
+    "organization_projects": "read",
+    "team_discussions": "read"
+  },
+  "request_oauth_on_install": true,
+  "setup_on_update": true,
+  "single_file_name": "ignition-project.json",
+  "marketplace": {
+    "category": "project-management",
+    "subcategory": "compliance",
+    "pricing_model": "subscription",
+    "free_trial_days": 30,
+    "has_free_plan": true,
+    "plans": [
+      {
+        "name": "Free",
+        "description": "Basic compliance tracking for small teams",
+        "price": 0,
+        "unit": "month",
+        "repositories": 5,
+        "users": 10,
+        "features": [
+          "Basic compliance tracking",
+          "Standard reporting",
+          "Community support",
+          "GitHub integration",
+          "Basic security monitoring"
+        ]
+      },
+      {
+        "name": "Professional",
+        "description": "Advanced compliance management for growing organizations",
+        "price": 29,
+        "unit": "month",
+        "repositories": 50,
+        "users": 100,
+        "features": [
+          "Advanced compliance management",
+          "AI-powered assessments",
+          "Custom reporting",
+          "Priority support",
+          "Multi-standard compliance",
+          "Real-time monitoring",
+          "Advanced analytics",
+          "Webhook integrations"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "description": "Full-featured solution for large enterprises",
+        "price": 99,
+        "unit": "month",
+        "repositories": -1,
+        "users": -1,
+        "features": [
+          "Full feature access",
+          "Custom compliance standards",
+          "Advanced analytics",
+          "Dedicated support",
+          "SLA guarantees",
+          "Custom integrations",
+          "On-premises deployment",
+          "Advanced security features",
+          "Custom training",
+          "Priority feature requests"
+        ]
+      }
+    ]
+  },
+  "features": {
+    "ai_powered_assessments": {
+      "name": "AI-Powered Assessments",
+      "description": "Automatically generate comprehensive requirements, test cases, risks, and configuration items using advanced AI",
+      "category": "automation"
+    },
+    "meta_compliance": {
+      "name": "Meta-Compliance",
+      "description": "Tool manages its own development process using the same standards it enforces",
+      "category": "compliance"
+    },
+    "multi_standard_support": {
+      "name": "Multi-Standard Compliance",
+      "description": "Support for ISO 27001, SOC 2, HIPAA, FDA 21 CFR Part 11, and custom standards",
+      "category": "compliance"
+    },
+    "real_time_monitoring": {
+      "name": "Real-Time Monitoring",
+      "description": "Continuous monitoring of repository changes, security events, and compliance status",
+      "category": "monitoring"
+    },
+    "relationship_mapping": {
+      "name": "Relationship Graph Dashboard",
+      "description": "Visual mapping of relationships between documents, requirements, risks, and test cases",
+      "category": "analytics"
+    },
+    "security_integration": {
+      "name": "GitHub Security Integration",
+      "description": "Comprehensive integration with GitHub security features including vulnerability alerts and code scanning",
+      "category": "security"
+    },
+    "audit_trails": {
+      "name": "Comprehensive Audit Trails",
+      "description": "Complete audit logging for compliance and regulatory requirements",
+      "category": "compliance"
+    },
+    "automated_reporting": {
+      "name": "Automated Reporting",
+      "description": "Generate compliance reports automatically with customizable templates",
+      "category": "reporting"
+    }
+  },
+  "integrations": {
+    "github_security": {
+      "name": "GitHub Security",
+      "description": "Native integration with GitHub security features",
+      "required": true
+    },
+    "github_actions": {
+      "name": "GitHub Actions",
+      "description": "Integration with CI/CD workflows for automated compliance checks",
+      "required": false
+    },
+    "github_projects": {
+      "name": "GitHub Projects",
+      "description": "Integration with GitHub Projects for project management",
+      "required": false
+    }
+  },
+  "compliance_standards": [
+    {
+      "name": "ISO 27001:2022",
+      "description": "Information Security Management System",
+      "category": "security"
+    },
+    {
+      "name": "SOC 2 Type II",
+      "description": "Service Organization Control 2",
+      "category": "security"
+    },
+    {
+      "name": "HIPAA Security Rule",
+      "description": "Health Insurance Portability and Accountability Act",
+      "category": "healthcare"
+    },
+    {
+      "name": "FDA 21 CFR Part 11",
+      "description": "Electronic Records and Electronic Signatures",
+      "category": "pharmaceutical"
+    },
+    {
+      "name": "FRE 901/902",
+      "description": "Federal Rules of Evidence",
+      "category": "legal"
+    },
+    {
+      "name": "GDPR",
+      "description": "General Data Protection Regulation",
+      "category": "privacy"
+    }
+  ],
+  "target_audience": [
+    "Enterprise Organizations",
+    "Software Development Teams",
+    "Compliance Officers",
+    "Quality Assurance Teams",
+    "Legal Professionals",
+    "Project Managers",
+    "DevOps Teams",
+    "Security Teams"
+  ],
+  "use_cases": [
+    "Compliance Management",
+    "Project Oversight",
+    "Risk Management",
+    "Quality Assurance",
+    "Security Monitoring",
+    "Audit Preparation",
+    "Regulatory Reporting",
+    "Process Improvement"
+  ],
+  "support": {
+    "documentation_url": "https://docs.ignition.ai",
+    "support_url": "https://support.ignition.ai",
+    "community_url": "https://community.ignition.ai",
+    "contact_email": "support@ignition.ai",
+    "privacy_policy_url": "https://ignition.ai/privacy",
+    "terms_of_service_url": "https://ignition.ai/terms"
+  },
+  "technical_requirements": {
+    "minimum_github_version": "3.0",
+    "supported_languages": ["JavaScript", "TypeScript", "Python", "Java", "C#", "Go", "Rust", "Ruby"],
+    "webhook_delivery_timeout": 30,
+    "rate_limits": {
+      "api_calls_per_hour": 5000,
+      "webhook_events_per_hour": 10000
+    }
+  },
+  "security": {
+    "webhook_secret_required": true,
+    "jwt_authentication": true,
+    "oauth_scopes": ["user:email"],
+    "data_encryption": "AES-256",
+    "transport_encryption": "TLS 1.3",
+    "audit_logging": true,
+    "vulnerability_scanning": true
+  }
+}

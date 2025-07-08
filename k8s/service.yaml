@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignition-service
+  namespace: ignition
+  labels:
+    app: ignition
+    app.kubernetes.io/name: ignition
+    app.kubernetes.io/component: service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: ignition

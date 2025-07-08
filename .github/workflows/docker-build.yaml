@@ -1,0 +1,61 @@
+name: Docker Build & Test
+
+on:
+  push:
+    paths:
+    - 'Dockerfile*'
+    - 'docker-compose.yml'
+    - '.dockerignore'
+  pull_request:
+    paths:
+    - 'Dockerfile*'
+    - 'docker-compose.yml'
+    - '.dockerignore'
+
+jobs:
+  docker-test:
+    name: Test Docker Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build development image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile.dev
+        push: false
+        tags: ignition:dev-test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build production image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: ignition:prod-test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Test production container
+      run: |
+        docker run -d --name ignition-test -p 8080:80 ignition:prod-test
+        sleep 10
+        curl -f http://localhost:8080/health || exit 1
+        docker stop ignition-test
+        docker rm ignition-test
+
+    - name: Run security scan on image
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'ignition:prod-test'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'

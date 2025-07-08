@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ignition AI Project Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#f59e0b', // amber-500
+              'brand-secondary': '#fbbf24', // amber-400
+              'gray-950': '#0d1117',
+              'gray-900': '#161b22',
+              'gray-800': '#21262d',
+              'gray-700': '#30363d',
+              'gray-600': '#4b5563',
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react/": "https://esm.sh/react@^19.1.0/",
+          "react": "https://esm.sh/react@^19.1.0",
+          "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+          "lucide-react": "https://esm.sh/lucide-react@^0.525.0",
+          "@google/genai": "https://esm.sh/@google/genai@^1.8.0",
+          "uuid": "https://esm.sh/uuid@^9.0.1",
+          "chart.js": "https://esm.sh/chart.js@^4.4.7",
+          "react-chartjs-2": "https://esm.sh/react-chartjs-2@^5.2.0",
+          "framer-motion": "https://esm.sh/framer-motion@^11.15.0",
+          "@hello-pangea/dnd": "https://esm.sh/@hello-pangea/dnd@^17.0.0",
+          "react-hot-toast": "https://esm.sh/react-hot-toast@^2.4.1",
+          "recharts": "https://esm.sh/recharts@^2.13.3",
+          "d3": "https://esm.sh/d3@^7.9.0"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body class="bg-gray-950">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

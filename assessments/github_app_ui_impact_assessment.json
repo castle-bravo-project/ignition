@@ -1,0 +1,338 @@
+{
+  "projectName": "GitHub App UI Integration Impact Assessment",
+  "documents": {
+    "ui_impact": {
+      "id": "ui_impact",
+      "title": "GitHub App UI Integration Impact Analysis",
+      "content": [
+        {
+          "id": "ui_1",
+          "title": "1. AUTHENTICATION FLOW CHANGES",
+          "description": "Analysis of UI changes required for dual authentication support (PAT + GitHub App)",
+          "maturityLevel": 4,
+          "cmmiPaIds": ["REQM", "RD"],
+          "children": [
+            {
+              "id": "ui_1.1",
+              "title": "1.1 Settings Page Redesign",
+              "description": "Add authentication method selection with radio buttons, installation selector, and organization overview",
+              "maturityLevel": 3
+            },
+            {
+              "id": "ui_1.2", 
+              "title": "1.2 Installation Flow",
+              "description": "New GitHub App installation and authorization flow with OAuth-like experience",
+              "maturityLevel": 2
+            }
+          ]
+        },
+        {
+          "id": "ui_2",
+          "title": "2. DASHBOARD ARCHITECTURE CHANGES",
+          "description": "Multi-tenant dashboard supporting both single-project (PAT) and multi-project (GitHub App) views",
+          "maturityLevel": 3,
+          "cmmiPaIds": ["RD", "TS"],
+          "children": [
+            {
+              "id": "ui_2.1",
+              "title": "2.1 Organization Dashboard",
+              "description": "New organization-wide dashboard with repository grid, compliance scorecard, and usage metrics",
+              "maturityLevel": 2
+            },
+            {
+              "id": "ui_2.2",
+              "title": "2.2 Repository Selector",
+              "description": "Repository switching interface for GitHub App users with breadcrumb navigation",
+              "maturityLevel": 3
+            }
+          ]
+        },
+        {
+          "id": "ui_3",
+          "title": "3. STYLE GUIDE COMPLIANCE",
+          "description": "Ensure new UI components follow existing WCAG 2.1 AA standards and design system",
+          "maturityLevel": 4,
+          "cmmiPaIds": ["PPQA", "VER"]
+        }
+      ]
+    }
+  },
+  "requirements": [
+    {
+      "id": "REQ-UI-001",
+      "title": "Backward Compatible Authentication UI",
+      "description": "The authentication interface must support both PAT and GitHub App methods without breaking existing user workflows",
+      "category": "User Interface",
+      "priority": "High",
+      "status": "Draft",
+      "acceptanceCriteria": [
+        "Existing PAT users can continue using current flow",
+        "New GitHub App option is clearly presented",
+        "Migration path is intuitive and optional"
+      ],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment", 
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "REQ-UI-002",
+      "title": "WCAG 2.1 AA Compliance for New Components",
+      "description": "All new UI components must maintain WCAG 2.1 AA accessibility standards",
+      "category": "Accessibility",
+      "priority": "High", 
+      "status": "Draft",
+      "acceptanceCriteria": [
+        "Color contrast ratios meet AA standards",
+        "Keyboard navigation works for all new components",
+        "Screen reader compatibility maintained",
+        "Focus management follows existing patterns"
+      ],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "REQ-UI-003", 
+      "title": "Design System Consistency",
+      "description": "New components must follow existing design system patterns and color palette",
+      "category": "Design System",
+      "priority": "Medium",
+      "status": "Draft",
+      "acceptanceCriteria": [
+        "Uses existing color palette (brand-primary, gray scale)",
+        "Follows card-based layout patterns",
+        "Maintains consistent typography hierarchy",
+        "Uses existing icon library (Lucide React)"
+      ],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "REQ-UI-004",
+      "title": "Organization Dashboard Layout",
+      "description": "Create organization-wide dashboard that scales from 1 to 100+ repositories",
+      "category": "Dashboard",
+      "priority": "High",
+      "status": "Draft", 
+      "acceptanceCriteria": [
+        "Repository grid with pagination/virtualization",
+        "Compliance scorecard with drill-down capability",
+        "Usage metrics with time-series charts",
+        "Responsive design for mobile/tablet/desktop"
+      ],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "REQ-UI-005",
+      "title": "Installation Selection Interface",
+      "description": "Provide intuitive interface for selecting GitHub App installations and repositories",
+      "category": "User Interface",
+      "priority": "Medium",
+      "status": "Draft",
+      "acceptanceCriteria": [
+        "Visual organization cards with avatars",
+        "Repository count and permissions display", 
+        "Search and filter capabilities",
+        "Clear installation status indicators"
+      ],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    }
+  ],
+  "testCases": [
+    {
+      "id": "TC-UI-001",
+      "title": "Authentication Method Selection",
+      "description": "Verify users can switch between PAT and GitHub App authentication methods",
+      "status": "Not Run",
+      "gherkinScript": "Given user is on Settings page\nWhen user selects GitHub App authentication\nThen installation selector should appear\nAnd PAT fields should be hidden\nAnd existing data should be preserved",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "TC-UI-002", 
+      "title": "Organization Dashboard Accessibility",
+      "description": "Verify organization dashboard meets WCAG 2.1 AA standards",
+      "status": "Not Run",
+      "gherkinScript": "Given user has GitHub App authentication\nWhen user navigates using only keyboard\nThen all interactive elements should be reachable\nAnd focus indicators should be visible\nAnd screen reader should announce content correctly",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment", 
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "TC-UI-003",
+      "title": "Repository Grid Performance",
+      "description": "Verify organization dashboard performs well with large numbers of repositories",
+      "status": "Not Run",
+      "gherkinScript": "Given organization has 100+ repositories\nWhen user loads organization dashboard\nThen page should load within 2 seconds\nAnd scrolling should be smooth\nAnd memory usage should remain stable",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "TC-UI-004",
+      "title": "Design System Consistency Check",
+      "description": "Verify new components follow existing design system",
+      "status": "Not Run", 
+      "gherkinScript": "Given new GitHub App components are rendered\nWhen comparing with existing components\nThen color palette should match existing brand colors\nAnd typography should follow established hierarchy\nAnd spacing should use 8-point grid system",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    }
+  ],
+  "risks": [
+    {
+      "id": "RISK-UI-001",
+      "title": "User Experience Fragmentation",
+      "description": "Risk that dual authentication creates confusing user experience with inconsistent workflows",
+      "category": "User Experience",
+      "probability": "Medium",
+      "impact": "High",
+      "status": "Open",
+      "mitigation": "Implement progressive disclosure and clear migration guidance",
+      "owner": "UI Team",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "RISK-UI-002",
+      "title": "Accessibility Regression",
+      "description": "Risk that new components break existing accessibility compliance",
+      "category": "Accessibility",
+      "probability": "Low",
+      "impact": "High", 
+      "status": "Open",
+      "mitigation": "Mandatory accessibility testing for all new components",
+      "owner": "QA Team",
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "RISK-UI-003",
+      "title": "Performance Degradation",
+      "description": "Risk that organization dashboard with many repositories impacts performance",
+      "category": "Performance",
+      "probability": "Medium",
+      "impact": "Medium",
+      "status": "Open",
+      "mitigation": "Implement virtualization and pagination for large datasets",
+      "owner": "Development Team",
+      "createdBy": "UI Assessment", 
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    }
+  ],
+  "configurationItems": [
+    {
+      "id": "CI-UI-001",
+      "name": "Authentication Component Library",
+      "type": "Software Component",
+      "version": "1.0.0",
+      "status": "Planned",
+      "description": "React components for dual authentication (PAT + GitHub App)",
+      "dependencies": ["CI-002"],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "CI-UI-002",
+      "name": "Organization Dashboard Components",
+      "type": "Software Component", 
+      "version": "1.0.0",
+      "status": "Planned",
+      "description": "Multi-tenant dashboard components with repository grid and metrics",
+      "dependencies": ["CI-002", "CI-UI-001"],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    },
+    {
+      "id": "CI-UI-003",
+      "name": "Updated Style Guide",
+      "type": "Document",
+      "version": "2.0.0",
+      "status": "Planned",
+      "description": "Enhanced style guide with GitHub App component patterns",
+      "dependencies": ["CI-UI-001", "CI-UI-002"],
+      "createdBy": "UI Assessment",
+      "createdAt": "2024-07-08T20:30:00Z",
+      "updatedBy": "UI Assessment",
+      "updatedAt": "2024-07-08T20:30:00Z"
+    }
+  ],
+  "links": {
+    "REQ-UI-001": {
+      "tests": ["TC-UI-001"],
+      "cis": ["CI-UI-001"],
+      "risks": ["RISK-UI-001"]
+    },
+    "REQ-UI-002": {
+      "tests": ["TC-UI-002"],
+      "cis": ["CI-UI-001", "CI-UI-002"],
+      "risks": ["RISK-UI-002"]
+    },
+    "REQ-UI-003": {
+      "tests": ["TC-UI-004"],
+      "cis": ["CI-UI-003"],
+      "risks": []
+    },
+    "REQ-UI-004": {
+      "tests": ["TC-UI-003"],
+      "cis": ["CI-UI-002"],
+      "risks": ["RISK-UI-003"]
+    },
+    "REQ-UI-005": {
+      "tests": ["TC-UI-001"],
+      "cis": ["CI-UI-001"],
+      "risks": ["RISK-UI-001"]
+    }
+  },
+  "auditLog": [
+    {
+      "action": "ASSESSMENT_CREATED",
+      "timestamp": "2024-07-08T20:30:00Z",
+      "details": {
+        "assessmentType": "UI Impact Analysis",
+        "scope": "GitHub App Integration",
+        "requirements": 5,
+        "testCases": 4,
+        "risks": 3,
+        "configurationItems": 3
+      },
+      "actor": "Meta-Compliance System"
+    }
+  ],
+  "processAssets": [],
+  "organizationalData": {
+    "projects": [],
+    "assets": [],
+    "metrics": {
+      "totalProjects": 1,
+      "totalAssets": 0,
+      "avgAssetReuse": 0,
+      "organizationalMaturityLevel": 4
+    }
+  }
+}
