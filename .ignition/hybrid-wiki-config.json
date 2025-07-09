@@ -1,0 +1,15 @@
+{
+  "enableStructuredFiles": true,
+  "enableDocumentationGeneration": true,
+  "enableGitHubWiki": false,
+  "documentationOptions": {
+    "includeUsageStats": true,
+    "includeLinks": true,
+    "includeExamples": true,
+    "groupByType": true,
+    "generateTOC": true
+  },
+  "autoGenerateOnSave": true,
+  "structuredFilesPath": ".ignition/assets",
+  "documentationPath": "PROCESS_ASSETS.md"
+}
