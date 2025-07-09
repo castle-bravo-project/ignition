@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "id": "PA-ACCESSTST",
+    "type": "Test Strategy",
+    "name": "Accessibility Compliance Testing",
+    "description": "Standard approach for testing UI/UX design compliance with accessibility standards (e.g., WCAG).",
+    "createdAt": "2025-07-09T21:07:42.681Z",
+    "updatedAt": "2025-07-09T21:07:42.681Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "1.  **Identify Applicable Standards:** Determine the specific accessibility standards and conformance levels required (e.g., WCAG 2.1 AA).\n2.  **Tool-Based Assessment:** Utilize automated accessibility testing tools (e.g., Axe, Lighthouse) during development and CI/CD pipelines to catch common violations.\n3.  **Manual Review & Testing:** Conduct manual testing by individuals familiar with accessibility guidelines, including keyboard navigation testing, screen reader testing, and color contrast checks.\n4.  **Usability Testing with Users with Disabilities:** Recruit users with different types of disabilities to perform usability testing on key workflows.\n5.  **Include Accessibility in Definition of Done:** Ensure accessibility checks are part of the criteria for completing feature development.\n6.  **Documentation Review:** Verify that documentation (UI/UX Style Guide, design specifications) includes accessibility considerations.\n7.  **Regular Audits:** Schedule periodic accessibility audits to ensure continued compliance.",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T21:07:42.681Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": []
+  }
+}
