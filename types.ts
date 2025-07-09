@@ -16,6 +16,7 @@ export type Page =
   | 'Process Assets'
   | 'Quality Assurance'
   | 'Compliance'
+  | 'Compliance Dashboard'
   | 'Security'
   | 'AI Assessment';
 

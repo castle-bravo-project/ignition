@@ -38,11 +38,11 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className="w-64 bg-gray-900 flex flex-col border-r border-gray-700">
-      <div className="flex items-center justify-center h-20 border-b border-gray-700">
-        <Zap className="text-brand-primary" size={28} />
-        <h1 className="text-2xl font-bold ml-2">Ignition</h1>
+      <div className="flex items-center justify-center h-16 border-b border-gray-700">
+        <Zap className="text-brand-primary" size={24} />
+        <h1 className="text-xl font-bold ml-2">Ignition</h1>
       </div>
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {sortedNavItems.map((item) => (
           <a
             key={item.name}
@@ -51,22 +51,22 @@ const Sidebar: React.FC<SidebarProps> = ({
               e.preventDefault();
               setActivePage(item.name);
             }}
-            className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 ${
+            className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
               activePage === item.name
                 ? 'bg-brand-primary text-white'
                 : 'text-gray-400 hover:bg-gray-800 hover:text-white'
             }`}
           >
             {item.icon}
-            <span className="ml-4">{item.name}</span>
+            <span className="ml-3">{item.name}</span>
           </a>
         ))}
       </nav>
 
-      <div className="px-4 pb-4 space-y-2">
+      <div className="px-3 pb-3 space-y-1">
          <button
             onClick={onLoadFromGithub}
-            className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-white disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-start px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-white disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed"
             aria-label="Load project from GitHub"
             disabled={!githubSettingsConfigured}
             title={!githubSettingsConfigured ? "Configure GitHub settings first" : "Load project from GitHub"}
@@ -76,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
         <button
             onClick={onSaveToGithub}
-            className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-white disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-start px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-white disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed"
             aria-label="Save project to GitHub"
             disabled={!githubSettingsConfigured}
             title={!githubSettingsConfigured ? "Configure GitHub settings first" : "Save project to GitHub"}
@@ -84,10 +84,10 @@ const Sidebar: React.FC<SidebarProps> = ({
             <GitCommit size={16} className="mr-3 flex-shrink-0"/>
             <span>Save to GitHub</span>
         </button>
-        <hr className="border-gray-700 my-2" />
+        <hr className="border-gray-700 my-1" />
         <button
             onClick={onImportProject}
-            className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-400 hover:bg-gray-700 hover:text-white"
+            className="w-full flex items-center justify-start px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-400 hover:bg-gray-700 hover:text-white"
             aria-label="Import Project from JSON file"
         >
             <Upload size={16} className="mr-3 flex-shrink-0"/>
@@ -95,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
         <button
             onClick={onExportProject}
-            className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-400 hover:bg-gray-700 hover:text-white"
+            className="w-full flex items-center justify-start px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-400 hover:bg-gray-700 hover:text-white"
             aria-label="Export Project to JSON file"
         >
             <Download size={16} className="mr-3 flex-shrink-0"/>
@@ -103,16 +103,21 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      <div className="px-4 py-6 border-t border-gray-700">
-        <div className="flex items-center p-3 bg-gray-800 rounded-lg">
-           <GitCommit className="text-brand-secondary" size={20} />
-           <div className="ml-3 overflow-hidden">
+      <div className="px-3 py-3 border-t border-gray-700">
+        <div className="flex items-center p-2 bg-gray-800 rounded-lg">
+           <GitCommit className="text-brand-secondary" size={18} />
+           <div className="ml-2 overflow-hidden">
              <p className="text-sm font-semibold text-white truncate" title={projectName}>{projectName}</p>
              <p className="text-xs text-gray-400">main</p>
            </div>
         </div>
-        <div className="mt-4 text-xs text-center text-gray-600">
-          <p>Powered by Castle Bravo</p>
+        <div className="mt-2 flex items-center justify-center">
+          <img
+            src="/sidebar-logos.svg"
+            alt="Ignition Meta-Compliance & Castle Bravo Open Defense"
+            className="w-44 h-8 object-contain"
+            style={{ filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))' }}
+          />
         </div>
       </div>
     </div>

@@ -192,10 +192,10 @@ const RelationshipGraphDashboard: React.FC<RelationshipGraphDashboardProps> = ({
   const filteredNodes = useMemo(() => {
     return nodes.filter(node => {
       const matchesFilter = filterType === 'all' || node.type === filterType;
-      const matchesSearch = searchTerm === '' || 
-        node.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        node.category.toLowerCase().includes(searchTerm.toLowerCase());
-      
+      const matchesSearch = searchTerm === '' ||
+        node.label?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        node.category?.toLowerCase().includes(searchTerm.toLowerCase());
+
       return matchesFilter && matchesSearch;
     });
   }, [nodes, filterType, searchTerm]);

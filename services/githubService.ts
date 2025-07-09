@@ -1,4 +1,9 @@
-import { GitHubIssue, PullRequest, PullRequestFile } from '../types';
+import {
+  AuditLogEntry,
+  GitHubIssue,
+  PullRequest,
+  PullRequestFile,
+} from '../types';
 
 export interface GitHubRepo {
   owner: string;
@@ -274,6 +279,114 @@ export const getPullRequests = async (
     createdAt: pr.created_at,
     updatedAt: pr.updated_at,
   }));
+};
+
+export interface GitHubCommit {
+  sha: string;
+  commit: {
+    message: string;
+    author: {
+      name: string;
+      email: string;
+      date: string;
+    };
+    committer: {
+      name: string;
+      email: string;
+      date: string;
+    };
+  };
+  author: {
+    login: string;
+    avatar_url: string;
+  } | null;
+  html_url: string;
+  stats?: {
+    additions: number;
+    deletions: number;
+    total: number;
+  };
+  files?: Array<{
+    filename: string;
+    status: 'added' | 'removed' | 'modified' | 'renamed';
+    additions: number;
+    deletions: number;
+    changes: number;
+  }>;
+}
+
+export const getRecentCommits = async (
+  settings: GitHubSettings,
+  since?: string,
+  limit: number = 50
+): Promise<GitHubCommit[]> => {
+  const repoInfo = parseRepoUrl(settings.repoUrl);
+  if (!repoInfo) throw new Error('Invalid GitHub Repository URL.');
+
+  // Build URL with optional since parameter
+  let url = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=${limit}`;
+  if (since) {
+    url += `&since=${since}`;
+  }
+
+  const data = await githubApiRequest(url, settings.pat);
+
+  if (!Array.isArray(data)) {
+    throw new Error('Unexpected response when fetching commits.');
+  }
+
+  return data;
+};
+
+export const processCommitsToAuditEntries = (
+  commits: GitHubCommit[],
+  repoFullName: string
+): AuditLogEntry[] => {
+  return commits.map((commit) => {
+    const isIgnitionGenerated =
+      commit.commit.message.toLowerCase().includes('audit:') ||
+      commit.commit.message.toLowerCase().includes('ignition:') ||
+      commit.commit.message.toLowerCase().includes('meta-compliance');
+
+    const commitDate = new Date(commit.commit.author.date);
+    const shortSha = commit.sha.substring(0, 7);
+
+    return {
+      id: `commit_${commit.sha}_${Date.now()}`,
+      timestamp: commitDate.toISOString(),
+      actor: isIgnitionGenerated ? 'System' : 'User',
+      eventType: 'REPOSITORY_COMMIT',
+      summary: `Commit ${shortSha}: ${commit.commit.message}`,
+      details: {
+        commitSha: commit.sha,
+        commitUrl: commit.html_url,
+        author: {
+          name: commit.commit.author.name,
+          email: commit.commit.author.email,
+          githubLogin: commit.author?.login || 'Unknown',
+        },
+        committer: {
+          name: commit.commit.committer.name,
+          email: commit.commit.committer.email,
+        },
+        repository: repoFullName,
+        message: commit.commit.message,
+        isIgnitionGenerated,
+        stats: commit.stats,
+        filesChanged:
+          commit.files?.map((file) => ({
+            filename: file.filename,
+            status: file.status,
+            additions: file.additions,
+            deletions: file.deletions,
+            changes: file.changes,
+          })) || [],
+        source: 'github_api_poll',
+        complianceRelevant: true,
+        dataClassification: 'INTERNAL',
+      },
+    };
+  });
 };
 
 export const getPullRequestFiles = async (

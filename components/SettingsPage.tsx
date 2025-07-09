@@ -1,6 +1,6 @@
 
 
-import { AlertTriangle, BookOpen, Database, FileText, GitBranch, Github, Loader, RefreshCw, Save, TestTube2 } from 'lucide-react';
+import { AlertTriangle, BookOpen, Database, FileText, GitBranch, Github, Loader, RefreshCw, Save, Settings, TestTube2 } from 'lucide-react';
 import React, { useState } from 'react';
 import { generateIssueTemplates } from '../services/geminiService';
 import { saveFileToRepo } from '../services/githubService';
@@ -14,6 +14,8 @@ interface SettingsPageProps {
   onResetProjectData: () => void;
   githubSettings: GitHubSettings;
   onUpdateGithubSettings: (settings: GitHubSettings) => void;
+  webhookConfig?: any; // WebhookConfig - using any for now to avoid import issues
+  onUpdateWebhookConfig?: (config: any) => void;
   onScaffoldRepository: () => void;
   onGenerateTestWorkflow: () => Promise<void>;
   onLoadUIAssessment?: () => void;
@@ -26,6 +28,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   onResetProjectData,
   githubSettings,
   onUpdateGithubSettings,
+  webhookConfig,
+  onUpdateWebhookConfig,
   onScaffoldRepository,
   onGenerateTestWorkflow,
   onLoadUIAssessment,
@@ -39,6 +43,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [isTemplateLoading, setIsTemplateLoading] = useState(false);
   const [isScaffolding, setIsScaffolding] = useState(false);
+  const [isWebhookModalOpen, setIsWebhookModalOpen] = useState(false);
   const [isGeneratingWorkflow, setIsGeneratingWorkflow] = useState(false);
 
   // Hybrid Wiki state
@@ -53,7 +58,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     repoUrl.trim() !== githubSettings.repoUrl ||
     pat.trim() !== githubSettings.pat ||
     filePath.trim() !== githubSettings.filePath;
-  
+
   const githubSettingsConfigured = !!(githubSettings.repoUrl && githubSettings.pat);
 
   const handleSaveName = () => {
@@ -76,9 +81,9 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
 
   const handleSaveGithubSettings = () => {
     if (hasGithubSettingsChanged) {
-        onUpdateGithubSettings({ 
-            repoUrl: repoUrl.trim(), 
-            pat: pat.trim(), 
+        onUpdateGithubSettings({
+            repoUrl: repoUrl.trim(),
+            pat: pat.trim(),
             filePath: filePath.trim() || 'ignition-project.json'
         });
     }
@@ -88,7 +93,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
     onResetProjectData();
     setIsResetModalOpen(false);
   };
-  
+
   const handleGenerateTemplates = async () => {
     if (!githubSettingsConfigured) {
         alert("Please configure and save your GitHub settings first.");
@@ -379,6 +384,43 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             </div>
         </div>
 
+        {/* Webhook Configuration */}
+        {webhookConfig && onUpdateWebhookConfig && (
+          <div className="bg-gray-900 border border-gray-800 rounded-lg">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                <Settings size={20} className="text-brand-primary" />
+                Webhook Integration
+              </h2>
+              <p className="text-sm text-gray-400 mt-1">
+                Configure GitHub webhooks for real-time audit logging. Enhances your existing PAT-based system.
+              </p>
+            </div>
+            <div className="border-t border-gray-800 p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="font-semibold text-white">Hybrid Webhook System</h3>
+                  <p className="text-sm text-gray-400 max-w-lg mt-1">
+                    Status: <span className={`font-medium ${webhookConfig.enabled ? 'text-green-400' : 'text-gray-400'}`}>
+                      {webhookConfig.enabled ? 'Enabled' : 'Disabled'}
+                    </span>
+                    {webhookConfig.enabled && (
+                      <span className="text-gray-400"> • Events: {webhookConfig.events?.join(', ')}</span>
+                    )}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsWebhookModalOpen(true)}
+                  className="flex-shrink-0 flex items-center gap-2 bg-brand-primary text-gray-900 font-semibold px-4 py-2 rounded-lg hover:bg-brand-secondary transition-colors"
+                >
+                  <Settings size={16} />
+                  Configure Webhooks
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Hybrid Wiki System */}
         <div className="bg-gray-900 border border-gray-800 rounded-lg">
           <div className="p-6">
@@ -546,6 +588,41 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
         message="Are you sure you want to reset all project data? This action is irreversible and will restore the project to its initial state. Consider exporting your current data first."
         confirmButtonText="Yes, reset data"
       />
+
+      {/* Webhook Configuration Modal - Only render if webhook support is available */}
+      {webhookConfig && onUpdateWebhookConfig && (
+        <div>
+          {/* Placeholder for WebhookConfigurationModal - will be added when imports work */}
+          {isWebhookModalOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 w-full max-w-md">
+                <h3 className="text-lg font-semibold text-white mb-4">Webhook Configuration</h3>
+                <p className="text-gray-400 mb-4">
+                  Webhook configuration modal will be available once imports are resolved.
+                  Current status: {webhookConfig.enabled ? 'Enabled' : 'Disabled'}
+                </p>
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={() => setIsWebhookModalOpen(false)}
+                    className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={() => {
+                      onUpdateWebhookConfig({ ...webhookConfig, enabled: !webhookConfig.enabled });
+                      setIsWebhookModalOpen(false);
+                    }}
+                    className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-gray-900 font-semibold rounded-lg transition-colors"
+                  >
+                    {webhookConfig.enabled ? 'Disable' : 'Enable'} Webhooks
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { AlertTriangle, BarChart3, Bot, CheckSquare, Edit, Library, Loader, Package, Plus, Save, Trash2, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, Bot, CheckSquare, Edit, Library, Loader, Package, Plus, Save, Trash2, TrendingUp, X } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { scanForProcessAssets } from '../services/geminiService';

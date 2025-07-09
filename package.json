@@ -105,7 +105,8 @@
             "x64"
           ]
         }
-      ]
+      ],
+      "forceCodeSigning": false
     },
     "linux": {
       "target": [

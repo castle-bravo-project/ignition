@@ -1,6 +1,7 @@
-import { Bot, Cog, Eye, History, Search, User, X } from 'lucide-react';
+import { Bot, Cog, Eye, GitCommit, History, RefreshCw, Search, User, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { AuditLogEntry, ProjectData } from '../types';
+import { getRecentCommits, processCommitsToAuditEntries } from '../services/githubService';
+import { AuditLogEntry, GitHubSettings, ProjectData } from '../types';
 
 const LogDetailModal: React.FC<{ log: AuditLogEntry; onClose: () => void; }> = ({ log, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -49,9 +50,53 @@ const ACTOR_ICONS: { [key: string]: React.ReactNode } = {
   System: <Cog size={16} />,
 };
 
-const AuditLogPage: React.FC<{ projectData: ProjectData }> = ({ projectData }) => {
+interface AuditLogPageProps {
+  projectData: ProjectData;
+  githubSettings?: GitHubSettings;
+  onAddAuditEntries?: (entries: AuditLogEntry[]) => void;
+}
+
+const AuditLogPage: React.FC<AuditLogPageProps> = ({
+  projectData,
+  githubSettings,
+  onAddAuditEntries
+}) => {
   const [filter, setFilter] = useState('');
   const [selectedLog, setSelectedLog] = useState<AuditLogEntry | null>(null);
+  const [isLoadingCommits, setIsLoadingCommits] = useState(false);
+
+  const handleFetchCommits = async () => {
+    if (!githubSettings?.repoUrl || !githubSettings?.pat || !onAddAuditEntries) {
+      alert('GitHub settings not configured or audit entry handler not available');
+      return;
+    }
+
+    setIsLoadingCommits(true);
+    try {
+      // Get commits from the last 7 days
+      const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const commits = await getRecentCommits(githubSettings, since, 25);
+
+      if (commits.length === 0) {
+        alert('No recent commits found in the last 7 days');
+        return;
+      }
+
+      // Convert commits to audit entries
+      const repoName = githubSettings.repoUrl.split('/').slice(-2).join('/');
+      const auditEntries = processCommitsToAuditEntries(commits, repoName);
+
+      // Add to audit log
+      onAddAuditEntries(auditEntries);
+
+      alert(`Successfully added ${auditEntries.length} commit entries to audit log`);
+    } catch (error: any) {
+      console.error('Failed to fetch commits:', error);
+      alert(`Failed to fetch commits: ${error.message}`);
+    } finally {
+      setIsLoadingCommits(false);
+    }
+  };
 
   const logs = projectData.auditLog || [];
   const filteredLogs = logs.filter(log =>
@@ -61,6 +106,7 @@ const AuditLogPage: React.FC<{ projectData: ProjectData }> = ({ projectData }) =
   ).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   const getEventTypeStyle = (eventType: string) => {
+    if(!eventType) return EVENT_TYPE_STYLES.SYSTEM;
     if(eventType.endsWith('_CREATE')) return EVENT_TYPE_STYLES.CREATE;
     if(eventType.endsWith('_UPDATE')) return EVENT_TYPE_STYLES.UPDATE;
     if(eventType.endsWith('_DELETE')) return EVENT_TYPE_STYLES.DELETE;
@@ -74,7 +120,8 @@ const AuditLogPage: React.FC<{ projectData: ProjectData }> = ({ projectData }) =
         <p className="text-gray-400 mt-1">A chronological record of all significant events in the project.</p>
       </div>
 
-       <div className="relative">
+      <div className="flex gap-4 items-center">
+        <div className="relative flex-1">
           <input
             type="text"
             placeholder="Filter logs by summary, event type, or actor..."
@@ -86,6 +133,22 @@ const AuditLogPage: React.FC<{ projectData: ProjectData }> = ({ projectData }) =
             <Search className="text-gray-500" size={20} />
           </div>
         </div>
+
+        {githubSettings?.repoUrl && githubSettings?.pat && onAddAuditEntries && (
+          <button
+            onClick={handleFetchCommits}
+            disabled={isLoadingCommits}
+            className="bg-brand-primary hover:bg-brand-secondary disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg flex items-center gap-2 whitespace-nowrap transition-colors"
+          >
+            {isLoadingCommits ? (
+              <RefreshCw className="animate-spin" size={16} />
+            ) : (
+              <GitCommit size={16} />
+            )}
+            {isLoadingCommits ? 'Fetching...' : 'Fetch Commits'}
+          </button>
+        )}
+      </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">

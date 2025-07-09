@@ -1,4 +1,4 @@
-import { AlertTriangle, Edit, Github, Library, Plus, Save, Trash2, X } from 'lucide-react';
+import { AlertTriangle, Edit, Github, Library, Loader, Plus, Save, Trash2, X } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ConfigurationItem, ProjectData } from '../types';
 import AssetSelectionModal from './AssetSelectionModal';
@@ -287,7 +287,7 @@ const ConfigurationItemModal = ({
 
           {error && <p className="text-sm text-red-400 flex items-center gap-2 mt-2"><AlertTriangle size={16}/>{error}</p>}
         </main>
-        <footer className="px-6 py-3 bg-gray-900/50 border-t border-gray-800 flex justify-end gap-3 rounded-b-xl flex-shrink-0">
+        <footer className="px-4 py-2 bg-gray-900/50 border-t border-gray-800 flex justify-end gap-2 rounded-b-xl flex-shrink-0">
           <button onClick={onClose} className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Cancel</button>
           <button onClick={handleSaveClick} className="px-4 py-2 text-sm font-medium text-white bg-brand-primary hover:bg-brand-secondary rounded-lg transition-colors flex items-center gap-2">
             <Save size={16}/> Save CI

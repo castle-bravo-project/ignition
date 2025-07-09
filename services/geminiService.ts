@@ -625,6 +625,35 @@ export async function scaffoldRepositoryFiles(
       // Add the current project data to the scaffolded files
       parsed['ignition-project.json'] = JSON.stringify(projectData, null, 2);
 
+      // Create initial audit log file for persistent compliance logging
+      const initialAuditLog = {
+        auditLog: [
+          {
+            id: `audit_${Date.now()}_${Math.random()
+              .toString(36)
+              .substr(2, 9)}`,
+            timestamp: new Date().toISOString(),
+            actor: 'System',
+            eventType: 'AUDIT_LOG_INIT',
+            summary: 'Audit log initialized during repository scaffolding',
+            details: {
+              projectName: projectData.projectName,
+              scaffoldedFiles: Object.keys(parsed).length + 2, // +2 for project.json and audit-log.json
+              metaCompliance: true,
+            },
+          },
+        ],
+        metadata: {
+          created: new Date().toISOString(),
+          version: '1.0.0',
+          projectName: projectData.projectName,
+          description:
+            'Persistent audit log for Ignition meta-compliance tracking',
+        },
+      };
+
+      parsed['audit-log.json'] = JSON.stringify(initialAuditLog, null, 2);
+
       return parsed;
     } else {
       console.error(

@@ -1,13 +1,14 @@
 
 
 import { Loader } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ArchitecturePage from './components/ArchitecturePage';
 import AssessmentGenerator from './components/AssessmentGenerator';
 import AuditLogPage from './components/AuditLogPage';
 import BadgesPage from './components/BadgesPage';
 import CmmiPage from './components/CmmiPage';
+import ComplianceDashboard from './components/ComplianceDashboard';
 import CompliancePage from './components/CompliancePage';
 import ConfigurationPage from './components/ConfigurationPage';
 import DocumentsPage from './components/DocumentsPage';
@@ -25,8 +26,12 @@ import TestCasesPage from './components/TestCasesPage';
 import { initialProjectData } from './data/projectData';
 import { analyzePullRequest, generateTestWorkflowFiles, scaffoldRepositoryFiles } from './services/geminiService';
 import { getFileContent, getPullRequestFiles, getPullRequests, getRepoIssues, postCommentToPr, saveFileToRepo } from './services/githubService';
+import { createPersistentAuditEntry, createPersistentAuditService, PersistentAuditService } from './services/persistentAuditService';
+import { createWebhookAuditService, WebhookAuditService, WebhookConfig } from './services/webhookAuditService';
 import { AuditLogEntry, ConfigurationItem, Document, DocumentSectionData, GitHubIssue, GitHubSettings, Page, PrAnalysisResult, ProcessAsset, ProjectData, PullRequest, Requirement, Risk, TestCase } from './types';
 
+// Legacy createLogEntry function - now handled by createPersistentLogEntry in App component
+// This is kept for backwards compatibility but should be replaced with persistent logging
 const createLogEntry = (
   eventType: string,
   summary: string,
@@ -58,7 +63,30 @@ const App: React.FC = () => {
     }
   });
   const [projectFileSha, setProjectFileSha] = useState<string | undefined>(undefined);
-  
+  const [persistentAuditService, setPersistentAuditService] = useState<PersistentAuditService | null>(null);
+  const [webhookAuditService, setWebhookAuditService] = useState<WebhookAuditService | null>(null);
+  const [webhookConfig, setWebhookConfig] = useState<WebhookConfig>(() => {
+    try {
+      const item = window.localStorage.getItem('webhookConfig');
+      return item ? JSON.parse(item) : {
+        enabled: false,
+        secret: '',
+        endpoint: '/api/webhooks/github',
+        events: ['push', 'pull_request', 'issues'],
+        fallbackToPAT: true
+      };
+    } catch (error) {
+      console.error('Failed to load webhook config from localStorage', error);
+      return {
+        enabled: false,
+        secret: '',
+        endpoint: '/api/webhooks/github',
+        events: ['push', 'pull_request', 'issues'],
+        fallbackToPAT: true
+      };
+    }
+  });
+
   // GitHub data states
   const [githubIssues, setGithubIssues] = useState<GitHubIssue[]>([]);
   const [isFetchingIssues, setIsFetchingIssues] = useState(false);
@@ -66,8 +94,94 @@ const App: React.FC = () => {
   const [isFetchingPrs, setIsFetchingPrs] = useState(false);
   const [analysisResults, setAnalysisResults] = useState<Record<number, PrAnalysisResult>>({});
   const [isAnalyzingPr, setIsAnalyzingPr] = useState<number | null>(null);
-  
+
   const githubSettingsConfigured = !!(githubSettings.repoUrl && githubSettings.pat && githubSettings.filePath);
+
+  // Initialize persistent audit service when GitHub settings are configured
+  useEffect(() => {
+    if (githubSettingsConfigured) {
+      const auditService = createPersistentAuditService({
+        repoUrl: githubSettings.repoUrl,
+        token: githubSettings.pat,
+        filePath: 'audit-log.json'
+      });
+      setPersistentAuditService(auditService);
+
+      // Load existing audit log from GitHub
+      auditService.loadAuditLog().then(remoteEntries => {
+        if (remoteEntries.length > 0) {
+          setProjectData(currentData => ({
+            ...currentData,
+            auditLog: [...(currentData.auditLog || []), ...remoteEntries]
+          }));
+          console.log(`📋 Loaded ${remoteEntries.length} audit entries from GitHub repository`);
+        }
+      }).catch(error => {
+        console.warn('Could not load audit log from GitHub:', error.message);
+      });
+    } else {
+      setPersistentAuditService(null);
+    }
+  }, [githubSettingsConfigured, githubSettings.repoUrl, githubSettings.pat]);
+
+  // Initialize webhook audit service
+  useEffect(() => {
+    const webhookService = createWebhookAuditService(webhookConfig);
+    setWebhookAuditService(webhookService);
+
+    // Save webhook config to localStorage when it changes
+    try {
+      window.localStorage.setItem('webhookConfig', JSON.stringify(webhookConfig));
+    } catch (error) {
+      console.error('Failed to save webhook config to localStorage', error);
+    }
+  }, [webhookConfig]);
+
+  // Enhanced audit logging with persistent storage
+  const createPersistentLogEntry = useCallback(async (
+    eventType: string,
+    summary: string,
+    details: Record<string, any> = {},
+    actor: 'User' | 'AI' | 'System' | 'Automation' = 'User'
+  ): Promise<AuditLogEntry> => {
+    const entry = createPersistentAuditEntry(eventType, summary, details, actor);
+
+    // Add to local state immediately
+    setProjectData(currentData => ({
+      ...currentData,
+      auditLog: [...(currentData.auditLog || []), entry]
+    }));
+
+    // Save to GitHub if persistent service is available (async, non-blocking)
+    if (persistentAuditService) {
+      persistentAuditService.addAuditEntry(entry).then(() => {
+        console.log(`📋 Audit entry saved to GitHub: ${eventType}`);
+      }).catch(error => {
+        console.warn(`Failed to save audit entry to GitHub: ${error.message}`);
+      });
+    }
+
+    return entry;
+  }, [persistentAuditService]);
+
+  // Auto-save audit entries to GitHub when they're added to local state
+  useEffect(() => {
+    if (persistentAuditService && projectData.auditLog && projectData.auditLog.length > 0) {
+      // Get the last entry that might not be saved yet
+      const lastEntry = projectData.auditLog[projectData.auditLog.length - 1];
+      const cachedEntries = persistentAuditService.getCachedEntries();
+
+      // Check if this entry is new (not in cached entries)
+      const isNewEntry = !cachedEntries.find(entry => entry.id === lastEntry.id);
+
+      if (isNewEntry && lastEntry.details?.persistentLogging !== false) {
+        // Save new entry to GitHub (async, non-blocking)
+        persistentAuditService.addAuditEntry(lastEntry).catch(error => {
+          console.warn(`Background save to GitHub failed: ${error.message}`);
+        });
+      }
+    }
+  }, [projectData.auditLog, persistentAuditService]);
 
 
   const handleDocumentUpdate = useCallback((documentId: string, sectionId: string, newDescription: string, actor: 'User' | 'AI' = 'User') => {
@@ -136,7 +250,7 @@ const App: React.FC = () => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
+
       const logEntry = createLogEntry('PROJECT_EXPORT', 'Project data exported to JSON file.', {}, 'System');
       setProjectData(currentData => ({
         ...currentData,
@@ -239,7 +353,7 @@ const App: React.FC = () => {
     setProjectData(currentData => {
       const oldReq = currentData.requirements.find(r => r.id === updatedRequirement.id);
       const oldLinks = currentData.links[updatedRequirement.id] || { tests:[], cis:[], risks:[], issues:[] };
-      
+
       const requirementWithMeta: Requirement = {
         ...updatedRequirement,
         updatedAt: new Date().toISOString(),
@@ -254,7 +368,7 @@ const App: React.FC = () => {
       return { ...currentData, requirements: updatedRequirements, links: updatedLinks, auditLog: [...(currentData.auditLog || []), logEntry] };
     });
   }, []);
-  
+
   const handleDeleteRequirement = useCallback((requirementId: string) => {
     setProjectData(currentData => {
       const requirementToDelete = currentData.requirements.find(r => r.id === requirementId);
@@ -262,7 +376,7 @@ const App: React.FC = () => {
       delete newLinks[requirementId];
 
       const logEntry = createLogEntry('REQUIREMENT_DELETE', `Deleted requirement ${requirementId}: "${requirementToDelete?.description}"`, { payload: requirementToDelete });
-      
+
       return {
         ...currentData,
         requirements: currentData.requirements.filter(r => r.id !== requirementId),
@@ -381,7 +495,7 @@ const App: React.FC = () => {
 
         const newRiskCiLinks = { ...(currentData.riskCiLinks || {}), [riskWithMeta.id]: linkedCiIds };
         const logEntry = createLogEntry('RISK_CREATE', `Created risk ${riskWithMeta.id}: "${riskWithMeta.description}"`, { payload: { risk: riskWithMeta, linkedReqs: linkedReqIds, linkedCis: linkedCiIds } });
-        
+
         return {
             ...currentData,
             risks: [...currentData.risks, riskWithMeta],
@@ -400,7 +514,7 @@ const App: React.FC = () => {
 
           const riskWithMeta: Risk = { ...updatedRisk, updatedAt: new Date().toISOString(), updatedBy: 'User' };
           const updatedRisks = currentData.risks.map(r => r.id === riskWithMeta.id ? riskWithMeta : r);
-          
+
           const newLinks = { ...currentData.links };
           Object.keys(newLinks).forEach(reqId => {
               if (newLinks[reqId].risks) newLinks[reqId].risks = newLinks[reqId].risks.filter(riskId => riskId !== riskWithMeta.id);
@@ -686,20 +800,43 @@ const App: React.FC = () => {
     alert('GitHub settings saved!');
   }, []);
 
+  const handleUpdateWebhookConfig = useCallback((config: WebhookConfig) => {
+    setWebhookConfig(config);
+
+    // Create audit entry for webhook configuration change
+    const logEntry = createLogEntry(
+      'WEBHOOK_CONFIG_UPDATE',
+      `Webhook configuration updated: ${config.enabled ? 'enabled' : 'disabled'}`,
+      {
+        config: { ...config, secret: config.secret ? '[REDACTED]' : '' },
+        events: config.events,
+        fallbackToPAT: config.fallbackToPAT
+      },
+      'User'
+    );
+
+    setProjectData(currentData => ({
+      ...currentData,
+      auditLog: [...(currentData.auditLog || []), logEntry]
+    }));
+
+    alert(`Webhook configuration ${config.enabled ? 'enabled' : 'disabled'}!`);
+  }, []);
+
   const handleLoadFromGithub = useCallback(async () => {
     if (!githubSettingsConfigured) {
         alert("Please configure GitHub repository URL, PAT, and file path in Settings.");
         setActivePage('Settings');
         return;
     }
-    
+
     setLoadingMessage('Loading from GitHub...');
     setIsLoading(true);
-    
+
     try {
         const { content, sha } = await getFileContent(githubSettings);
         const importedData = JSON.parse(content);
-        
+
         if (importedData && importedData.documents && importedData.requirements) {
              const logEntry = createLogEntry('PROJECT_IMPORT_GITHUB', `Project data loaded from GitHub repo: ${githubSettings.repoUrl}`, { path: githubSettings.filePath }, 'System');
              if (!importedData.auditLog) importedData.auditLog = [];
@@ -747,7 +884,7 @@ const App: React.FC = () => {
                 const fileData = await getFileContent(githubSettings);
                 currentSha = fileData.sha;
             } catch (e: any) {
-                if (!e.message.includes('404')) { 
+                if (!e.message.includes('404')) {
                     throw e;
                 }
             }
@@ -755,7 +892,7 @@ const App: React.FC = () => {
 
         const result = await saveFileToRepo(githubSettings, githubSettings.filePath, jsonString, commitMessage, currentSha);
         setProjectFileSha(result.content.sha);
-        
+
         const logEntry = createLogEntry('PROJECT_EXPORT_GITHUB', `Project data saved to GitHub repo: ${githubSettings.repoUrl}`, { commit: result.commit.sha, path: githubSettings.filePath }, 'System');
          setProjectData(currentData => ({
             ...currentData,
@@ -784,7 +921,7 @@ const App: React.FC = () => {
     if (!githubSettingsConfigured || isFetchingIssues) {
         return;
     }
-    
+
     setIsFetchingIssues(true);
     try {
         const issues = await getRepoIssues(githubSettings);
@@ -874,7 +1011,7 @@ const App: React.FC = () => {
         alert("Please configure and save your GitHub settings first.");
         return;
     }
-    
+
     setLoadingMessage('Scaffolding repository...');
     setIsLoading(true);
     try {
@@ -886,7 +1023,7 @@ const App: React.FC = () => {
             await saveFileToRepo(githubSettings, filePath, content, `feat: add ${filePath}`);
             createdFiles.push(filePath);
         }
-        
+
         const logEntry = createLogEntry('REPO_SCAFFOLD', 'AI scaffolded repository with initial files.', { files: createdFiles }, 'AI');
         setProjectData(currentData => ({...currentData, auditLog: [...(currentData.auditLog || []), logEntry]}));
 
@@ -910,7 +1047,7 @@ const App: React.FC = () => {
         alert("Please configure and save your GitHub settings first.");
         return;
     }
-    
+
     setLoadingMessage('Generating test workflow...');
     setIsLoading(true);
     try {
@@ -922,7 +1059,7 @@ const App: React.FC = () => {
             await saveFileToRepo(githubSettings, filePath, content, `ci: add Ignition testing workflow for ${filePath}`);
             createdFiles.push(filePath);
         }
-        
+
         const logEntry = createLogEntry('TEST_WORKFLOW_GENERATE', 'AI generated GitHub Actions testing workflow.', { files: createdFiles }, 'AI');
         setProjectData(currentData => ({...currentData, auditLog: [...(currentData.auditLog || []), logEntry]}));
 
@@ -984,7 +1121,7 @@ const App: React.FC = () => {
                   }}
                />;
       case 'Process Assets':
-        return <ProcessAssetsPage 
+        return <ProcessAssetsPage
                   projectData={projectData}
                   onAddProcessAsset={handleAddProcessAsset}
                   onUpdateProcessAsset={handleUpdateProcessAsset}
@@ -1026,10 +1163,33 @@ const App: React.FC = () => {
         return <QualityAssurancePage projectData={projectData} />;
       case 'Compliance':
         return <CompliancePage projectData={projectData} />;
+      case 'Compliance Dashboard':
+        return <ComplianceDashboard
+          auditLog={projectData.auditLog || []}
+          githubSettings={githubSettings}
+          onGenerateIntegrityReport={async () => {
+            // TODO: Implement integrity report generation
+            alert('Integrity report generation coming soon!');
+          }}
+          onExportCompliancePackage={async () => {
+            // TODO: Implement compliance package export
+            alert('Compliance package export coming soon!');
+          }}
+        />;
       case 'Security':
         return <SecurityDashboard projectData={projectData} githubSettings={githubSettings} />;
       case 'Audit Log':
-        return <AuditLogPage projectData={projectData} />;
+        return <AuditLogPage
+          projectData={projectData}
+          githubSettings={githubSettings}
+          onAddAuditEntries={async (entries) => {
+            if (persistentAuditService) {
+              await persistentAuditService.addAuditEntries(entries);
+              // Reload project data to show new entries
+              await loadProjectData();
+            }
+          }}
+        />;
       case 'AI Assessment':
         return <AssessmentGenerator
                   onAssessmentGenerated={(assessment) => {
@@ -1046,6 +1206,8 @@ const App: React.FC = () => {
                   onResetProjectData={handleResetProjectData}
                   githubSettings={githubSettings}
                   onUpdateGithubSettings={handleUpdateGithubSettings}
+                  webhookConfig={webhookConfig}
+                  onUpdateWebhookConfig={handleUpdateWebhookConfig}
                   onScaffoldRepository={handleScaffoldRepository}
                   onGenerateTestWorkflow={handleGenerateTestWorkflow}
                   onLoadUIAssessment={loadUIImpactAssessment}
@@ -1063,7 +1225,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen font-sans text-white bg-gray-950">
+    <div className="flex h-screen font-sans text-white bg-gray-950 overflow-hidden">
        {isLoading && (
         <div className="fixed inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="flex flex-col items-center gap-4">
@@ -1072,8 +1234,8 @@ const App: React.FC = () => {
             </div>
         </div>
         )}
-      <Sidebar 
-        activePage={activePage} 
+      <Sidebar
+        activePage={activePage}
         setActivePage={setActivePage}
         onImportProject={handleImportProject}
         onExportProject={handleExportProject}
@@ -1082,7 +1244,7 @@ const App: React.FC = () => {
         githubSettingsConfigured={githubSettingsConfigured}
         projectName={projectData.projectName}
       />
-      <main className="flex-1 overflow-y-auto p-4 md:p-8">
+      <main className="flex-1 overflow-y-auto p-6 md:p-8">
         {renderContent()}
       </main>
     </div>

@@ -19,6 +19,7 @@ export const NAV_ITEMS: { name: Page; icon: React.ReactNode }[] = [
   { name: 'CMMI', icon: <Award size={20} /> },
   { name: 'Quality Assurance', icon: <Shield size={20} /> },
   { name: 'Compliance', icon: <ShieldAlert size={20} /> },
+  { name: 'Compliance Dashboard', icon: <Shield size={20} /> },
   { name: 'Security', icon: <ShieldCheck size={20} /> },
   { name: 'AI Assessment', icon: <BarChart3 size={20} /> },
   { name: 'Badges', icon: <Award size={20} /> },

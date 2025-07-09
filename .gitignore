@@ -12,6 +12,34 @@ dist
 dist-ssr
 *.local
 
+# Electron build artifacts
+dist-electron/
+out/
+build/
+release/
+
+# Electron executables and installers
+*.exe
+*.dmg
+*.pkg
+*.deb
+*.rpm
+*.AppImage
+*.snap
+
+# Windows specific
+*.dll
+*.pdb
+*.lib
+
+# macOS specific
+*.app/
+*.dsym/
+
+# Electron cache and temp files
+.electron-builder-cache/
+electron-builder-effective-config.yaml
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

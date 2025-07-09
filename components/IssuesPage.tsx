@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { AlertCircle, Edit, Github, Loader, RefreshCw } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GitHubIssue, ProjectData } from '../types';
-import { AlertCircle, RefreshCw, Loader, Github, Edit } from 'lucide-react';
 import IssueModal from './IssueModal';
 
 interface IssuesPageProps {
@@ -27,7 +27,7 @@ const IssuesPage: React.FC<IssuesPageProps> = ({
     if (githubSettingsConfigured) {
       onFetchIssues();
     }
-  }, [githubSettingsConfigured, onFetchIssues]);
+  }, [githubSettingsConfigured]); // Removed onFetchIssues from deps to prevent infinite loop
 
   const handleEditLinks = (issue: GitHubIssue) => {
     setSelectedIssue(issue);
