@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "id": "PA-M3N4O5P6",
+    "type": "Test Strategy",
+    "name": "Application Performance Testing",
+    "description": "Standard approach for planning and executing tests to measure and validate application performance characteristics, such as load time, response time, and resource usage.",
+    "createdAt": "2025-07-09T04:22:18.503Z",
+    "updatedAt": "2025-07-09T21:08:18.560Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "## Test Strategy: Application Performance\n\nThis strategy outlines the approach for testing the performance of the application to ensure it meets specified requirements (e.g., load times, response times) and performs acceptably under anticipated load.\n\n### 1. Objectives:\n- Verify that key application functions meet performance requirements (e.g., page load times, API response times).\n- Identify performance bottlenecks under various load conditions.\n- Ensure the application remains stable and responsive under peak load.\n- Measure resource utilization (CPU, memory, network) during testing.\n\n### 2. Scope:\n- **In Scope:** Key user flows, frequently accessed pages/features, critical API endpoints, features with known performance challenges.\n- **Out of Scope:** [Specify any areas not covered, e.g., third-party services outside of integration points].\n\n### 3. Performance Requirements:\n- Reference specific performance requirements (e.g., \"Application must load in under 3 seconds\", \"API X response time must be < 500ms\").\n- Define acceptable thresholds for response times, throughput, and resource utilization.\n\n### 4. Test Environment:\n- Production-like environment (hardware, software, network configuration).\n- Dedicated test environment to avoid impacting other activities.\n- Monitoring tools for capturing system metrics.\n\n### 5. Test Types:\n- **Load Testing:** Test the application under an expected level of load.\n- **Stress Testing:** Test the application beyond its normal operational capacity to find its breaking point.\n- **Endurance/Soak Testing:** Test the application under normal load for a prolonged period to detect issues like memory leaks.\n- **Spike Testing:** Test the application under sudden, large increases in load.\n- **Benchmark Testing:** Compare application performance against predefined benchmarks or previous versions.\n\n### 6. Test Data:\n- Realistic test data representing production data volume and distribution.\n- Sufficient data to execute tests without data generation becoming a bottleneck.\n\n### 7. Tools:\n- [List performance testing tools, e.g., JMeter, LoadRunner, k6, browser developer tools]\n- [List monitoring tools, e.g., Prometheus, Grafana, Application Performance Monitoring (APM) tools]\n\n### 8. Process:\n1.  **Identify Scenarios:** Define critical user journeys and transactions to be tested.\n2.  **Define Metrics:** Determine key performance indicators (KPIs) to measure (e.g., response time, throughput, error rate, resource usage).\n3.  **Create Test Scripts:** Develop automated scripts to simulate user load.\n4.  **Configure Environment:** Set up the test environment and monitoring tools.\n5.  **Execute Tests:** Run load, stress, endurance, spike tests.\n6.  **Analyze Results:** Review collected data, identify bottlenecks, compare against requirements/benchmarks.\n7.  **Report Findings:** Document results, issues, and recommendations.\n8.  **Retest:** After fixes or optimizations, re-execute relevant tests.",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T04:22:18.503Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": [
+      "CI-003"
+    ]
+  }
+}
