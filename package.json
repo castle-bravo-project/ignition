@@ -25,7 +25,14 @@
     "docker:run": "docker run -p 8080:80 ignition:latest",
     "docker:run-dev": "docker run -p 3000:3000 -v $(pwd):/app ignition:dev",
     "k8s:deploy": "kubectl apply -f k8s/",
-    "k8s:delete": "kubectl delete -f k8s/"
+    "k8s:delete": "kubectl delete -f k8s/",
+    "electron": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && electron .\"",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && electron . --dev\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:linux": "npm run build && electron-builder --linux",
+    "electron:dist": "npm run build && electron-builder --publish=never"
   },
   "dependencies": {
     "@google/genai": "^1.8.0",
@@ -54,11 +61,66 @@
     "@types/testing-library__jest-dom": "^6.0.0",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "concurrently": "^9.2.0",
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12",
     "jest": "^30.0.4",
     "jest-environment-jsdom": "^30.0.4",
     "jsdom": "^26.1.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "wait-on": "^8.0.3"
+  },
+  "main": "electron/main.cjs",
+  "homepage": "./",
+  "build": {
+    "appId": "com.castlebravo.ignition",
+    "productName": "Ignition AI Dashboard",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "castle-bravo-project",
+      "repo": "ignition"
+    }
   }
 }

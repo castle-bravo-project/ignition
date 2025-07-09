@@ -210,8 +210,8 @@ export const saveFileToRepo = async (
     }
   }
 
-  // Base64 encode
-  const encodedContent = btoa(fileContent);
+  // Base64 encode with Unicode support
+  const encodedContent = btoa(unescape(encodeURIComponent(fileContent)));
 
   const body: { message: string; content: string; sha?: string } = {
     message: commitMessage,

@@ -732,11 +732,8 @@ const App: React.FC = () => {
         return;
     }
 
-    const commitMessage = prompt("Enter commit message:", `Update project state via Ignition`);
-    if (!commitMessage) {
-        alert("Save cancelled. Commit message is required.");
-        return;
-    }
+    // Use default commit message for Electron compatibility (prompt() not supported)
+    const commitMessage = `Update project state via Ignition - ${new Date().toISOString()}`;
 
     setLoadingMessage('Saving to GitHub...');
     setIsLoading(true);
