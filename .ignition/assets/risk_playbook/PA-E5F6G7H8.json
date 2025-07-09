@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "id": "PA-E5F6G7H8",
+    "type": "Risk Playbook",
+    "name": "External API Integration Risk",
+    "description": "Describes the common risks associated with integrating external third-party APIs and provides mitigation strategies.",
+    "createdAt": "2025-07-09T04:22:18.503Z",
+    "updatedAt": "2025-07-09T04:22:18.503Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "## Risk Playbook: External API Integration\n\n- **Risk ID:** RISK-API-INT-XXX\n- **Risk Name:** Changes in External API Functionality or Availability\n- **Description:** The system depends on external third-party APIs (e.g., Gemini, GitHub). Changes to these APIs (breaking changes, deprecation, rate limits, downtime) could cause system functionality to fail or degrade.\n- **Category:** External, Technical\n- **Likelihood:** Medium\n- **Impact:** High\n- **Risk Level:** High\n\n### Potential Triggers:\n- API provider releases a new version with breaking changes.\n- API provider deprecates an old API version.\n- API experiences unexpected downtime or performance issues.\n- System usage exceeds API rate limits.\n- API provider changes terms of service or authentication methods.\n\n### Mitigation Steps:\n1.  **Monitoring:** Implement proactive monitoring of external API status and performance.\n2.  **Versioning:** Utilize API versioning whenever possible and plan for migration to newer versions.\n3.  **Abstraction Layer:** Implement an abstraction layer or facade pattern to isolate system code from direct API calls, making it easier to swap or adapt APIs.\n4.  **Graceful Degradation:** Design features to degrade gracefully if an API is unavailable or returns errors (e.g., provide cached results, display informative error messages).\n5.  **Rate Limit Handling:** Implement logic to detect and handle API rate limits, including retries with exponential backoff.\n6.  **API Documentation & Communication:** Regularly review API provider documentation and subscribe to their status/update notifications.\n7.  **Testing:** Include tests specifically for API integration points, especially after API provider announcements or suspected changes.\n8.  **Alternative APIs/Fallbacks:** Identify potential alternative APIs or fallback mechanisms where critical functionality depends on a single external API.\n9.  **Local Caching:** Implement local caching for frequently accessed data from the API to reduce calls and dependency on real-time availability.\n\n### Contingency Plan:\n- If an API experiences prolonged downtime or a severe breaking change, communicate impact to stakeholders, activate graceful degradation measures, and prioritize fixing or migrating the integration.",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T04:22:18.503Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": []
+  }
+}
