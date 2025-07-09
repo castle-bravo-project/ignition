@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "id": "PA-A1B2C3D4",
+    "type": "Requirement Archetype",
+    "name": "User Data Lifecycle Management",
+    "description": "Template for requirements related to the creation, reading, updating, deletion, saving, and potential lifecycle states of user-managed data entities within the system.",
+    "createdAt": "2025-07-09T04:22:18.502Z",
+    "updatedAt": "2025-07-09T04:22:18.502Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "## [Data Entity] Lifecycle Requirements\n\n### 3.1.1 Create [Data Entity]\n- **ID:** REQ-[ENTITY]-CREATE-XXX\n- **Description:** The system shall allow authenticated users to create a new [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Required fields, validation rules, default values]\n\n### 3.1.2 View [Data Entity]\n- **ID:** REQ-[ENTITY]-VIEW-XXX\n- **Description:** The system shall allow authenticated users to view an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Display format, required information displayed]\n\n### 3.1.3 Edit [Data Entity]\n- **ID:** REQ-[ENTITY]-EDIT-XXX\n- **Description:** The system shall allow authenticated users with appropriate permissions to edit an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Editable fields, validation rules, error handling]\n\n### 3.1.4 Save [Data Entity]\n- **ID:** REQ-[ENTITY]-SAVE-XXX\n- **Description:** The system shall allow users to save changes made to a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Auto-save frequency, manual save button, confirmation]\n\n### 3.1.5 Delete [Data Entity]\n- **ID:** REQ-[ENTITY]-DELETE-XXX\n- **Description:** The system shall allow users with appropriate permissions to delete a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Confirmation prompt, cascading deletion, soft vs hard delete]\n\n### 3.1.6 [Data Entity] State Transitions (Optional)\n- **ID:** REQ-[ENTITY]-STATE-XXX\n- **Description:** The system shall support transitions between the following states for a [Data Entity]: [List states, e.g., Draft, Pending, Approved, Archived].\n- **Acceptance Criteria:** [List criteria, e.g., Permitted transitions, trigger conditions, required permissions]",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T04:22:18.502Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": []
+  }
+}
