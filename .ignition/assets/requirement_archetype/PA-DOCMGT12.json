@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "id": "PA-DOCMGT12",
+    "type": "Requirement Archetype",
+    "name": "Document Management Feature",
+    "description": "Template for defining requirements related to creating, editing, and saving project documents.",
+    "createdAt": "2025-07-09T21:07:42.680Z",
+    "updatedAt": "2025-07-09T21:07:42.680Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "### [Requirement ID]\n\n**Requirement:** The system shall allow users to [Action, e.g., create, edit, save] [Type of Document, e.g., a project document].\n\n**Priority:** [High/Medium/Low]\n\n**Description:** Users require the ability to [Detailed description of the action, e.g., initiate the creation of a new document, modify existing document content, persist changes to the document].\n\n**Acceptance Criteria:**\n*   The system provides a user interface element to initiate [Action].\n*   Upon performing [Action], the system successfully [Resulting state, e.g., creates a new document instance, updates the document content, saves the document state].\n*   Appropriate feedback is provided to the user regarding the success or failure of the operation.\n\n**Traceability:** [Link to parent requirement, design element, or test case]",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T21:07:42.680Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": []
+  }
+}
