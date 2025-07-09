@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "id": "PA-LOCALSTOR",
+    "type": "Risk Playbook",
+    "name": "Local Storage Data Loss Risk",
+    "description": "Identifies the risk of user data loss when stored solely in the browser's local storage and outlines mitigation strategies.",
+    "createdAt": "2025-07-09T21:07:42.681Z",
+    "updatedAt": "2025-07-09T21:07:42.681Z",
+    "createdBy": "User",
+    "updatedBy": "User",
+    "version": "1.0.0"
+  },
+  "content": {
+    "template": "**Risk:** User data stored only in browser localStorage may be lost due to browser clearing, user actions, storage limits, or browser issues.\n\n**Category:** Data Integrity, User Experience\n\n**Likelihood:** Medium (Depends on user behavior and browser configuration)\n\n**Impact:** High (Loss of critical user project data)\n\n**Triggers:**\n*   User clears browser history/cache/site data.\n*   Browser updates or malfunctions.\n*   localStorage storage limit reached.\n*   User uses a different browser or device.\n\n**Mitigation Steps:**\n1.  **User Awareness:** Clearly inform users that data is stored locally and can be lost.\n2.  **Export Functionality:** Ensure the data export feature is prominent and easy to use, encouraging users to back up their data.\n3.  **Periodic Reminders:** Implement optional periodic reminders for users to export their data.\n4.  **Explore Alternatives/Complements:** Investigate adding optional cloud sync or alternative persistent storage methods (e.g., IndexedDB, File System Access API) as future enhancements.\n5.  **Robust Saving:** Ensure data saving to localStorage is atomic and handles potential errors gracefully.\n6.  **Data Validation on Load:** Implement checks when loading data from localStorage to detect corruption.",
+    "variables": {},
+    "examples": [],
+    "relatedAssets": []
+  },
+  "usage": {
+    "usageCount": 0,
+    "lastUsed": "2025-07-09T21:07:42.681Z",
+    "generatedItems": []
+  },
+  "links": {
+    "requirements": [],
+    "risks": [],
+    "cis": []
+  }
+}
