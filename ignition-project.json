@@ -1,5 +1,5 @@
 {
-  "projectName": "My Awesome Project",
+  "projectName": "Meta management evalution",
   "documents": {
     "sdp": {
       "id": "sdp",
@@ -1726,20 +1726,20 @@
     {
       "id": "REQ-005",
       "description": "The system shall allow project data export and import.",
-      "status": "Implemented",
       "priority": "Medium",
+      "status": "Implemented",
       "createdAt": "2024-01-01T12:00:00.000Z",
-      "updatedAt": "2024-01-01T12:00:00.000Z",
+      "updatedAt": "2025-07-09T04:37:23.496Z",
       "createdBy": "User",
       "updatedBy": "User"
     },
     {
       "id": "REQ-006",
       "description": "The system shall display a traceability matrix.",
-      "status": "Proposed",
       "priority": "Low",
+      "status": "Proposed",
       "createdAt": "2024-01-01T12:00:00.000Z",
-      "updatedAt": "2024-01-01T12:00:00.000Z",
+      "updatedAt": "2025-07-09T04:41:11.329Z",
       "createdBy": "User",
       "updatedBy": "User"
     }
@@ -1790,6 +1790,56 @@
       "updatedAt": "2024-01-01T12:00:00.000Z",
       "createdBy": "User",
       "updatedBy": "User"
+    },
+    {
+      "id": "TC-006",
+      "description": "Verify that project data can be successfully exported.",
+      "gherkin": "Feature: Project Data Export\n  Scenario: Successful data export\n    Given a project exists with data\n    When the user initiates project data export\n    Then the system should generate a file containing the project data.",
+      "status": "Not Run",
+      "createdAt": "2025-07-09T04:37:15.974Z",
+      "updatedAt": "2025-07-09T04:37:15.974Z",
+      "createdBy": "AI",
+      "updatedBy": "AI"
+    },
+    {
+      "id": "TC-007",
+      "description": "Verify that previously exported project data can be successfully imported.",
+      "gherkin": "Feature: Project Data Import\n  Scenario: Successful data import\n    Given an exported project data file exists\n    And the system is ready for import\n    When the user initiates project data import using the file\n    Then the system should import the project data successfully\n    And the imported data should match the exported data.",
+      "status": "Not Run",
+      "createdAt": "2025-07-09T04:37:18.423Z",
+      "updatedAt": "2025-07-09T04:37:18.423Z",
+      "createdBy": "AI",
+      "updatedBy": "AI"
+    },
+    {
+      "id": "TC-008",
+      "description": "Verify that the traceability matrix view can be accessed.",
+      "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Accessing the traceability matrix page\n    Given the user is logged into the system\n    When the user navigates to the traceability matrix section\n    Then the system should display the traceability matrix view.",
+      "status": "Not Run",
+      "createdAt": "2025-07-09T04:40:53.170Z",
+      "updatedAt": "2025-07-09T04:40:53.170Z",
+      "createdBy": "AI",
+      "updatedBy": "AI"
+    },
+    {
+      "id": "TC-009",
+      "description": "Verify that the displayed traceability matrix contains data.",
+      "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Displaying a populated traceability matrix\n    Given the traceability matrix view is displayed\n    When the system loads the traceability data\n    Then the matrix should not be empty and should display traceability links.",
+      "status": "Not Run",
+      "createdAt": "2025-07-09T04:40:54.660Z",
+      "updatedAt": "2025-07-09T04:40:54.660Z",
+      "createdBy": "AI",
+      "updatedBy": "AI"
+    },
+    {
+      "id": "TC-010",
+      "description": "Verify that requirement to test case traceability is displayed in the matrix.",
+      "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Verifying specific traceability links\n    Given the traceability matrix view is displayed\n    And the system contains linked requirements and test cases\n    When the user examines the matrix\n    Then links between requirements (e.g., from SRS) and test cases (e.g., from STP) should be visible.",
+      "status": "Not Run",
+      "createdAt": "2025-07-09T04:40:56.767Z",
+      "updatedAt": "2025-07-09T04:40:56.767Z",
+      "createdBy": "AI",
+      "updatedBy": "AI"
     }
   ],
   "configurationItems": [
@@ -1841,6 +1891,17 @@
       "updatedAt": "2024-01-01T12:00:00.000Z",
       "createdBy": "User",
       "updatedBy": "User"
+    },
+    {
+      "id": "CO-005",
+      "name": "GitHub Audit Log Persistence Service",
+      "type": "Software Component",
+      "version": "1.0.0",
+      "status": "In Development",
+      "createdAt": "2025-07-09T04:26:05.887Z",
+      "updatedAt": "2025-07-09T04:32:33.289Z",
+      "createdBy": "User",
+      "updatedBy": "User"
     }
   ],
   "risks": [
@@ -1867,7 +1928,52 @@
       "updatedBy": "User"
     }
   ],
-  "processAssets": [],
+  "processAssets": [
+    {
+      "id": "PA-A1B2C3D4",
+      "name": "User Data Lifecycle Management",
+      "type": "Requirement Archetype",
+      "description": "Template for requirements related to the creation, reading, updating, deletion, saving, and potential lifecycle states of user-managed data entities within the system.",
+      "content": "## [Data Entity] Lifecycle Requirements\n\n### 3.1.1 Create [Data Entity]\n- **ID:** REQ-[ENTITY]-CREATE-XXX\n- **Description:** The system shall allow authenticated users to create a new [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Required fields, validation rules, default values]\n\n### 3.1.2 View [Data Entity]\n- **ID:** REQ-[ENTITY]-VIEW-XXX\n- **Description:** The system shall allow authenticated users to view an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Display format, required information displayed]\n\n### 3.1.3 Edit [Data Entity]\n- **ID:** REQ-[ENTITY]-EDIT-XXX\n- **Description:** The system shall allow authenticated users with appropriate permissions to edit an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Editable fields, validation rules, error handling]\n\n### 3.1.4 Save [Data Entity]\n- **ID:** REQ-[ENTITY]-SAVE-XXX\n- **Description:** The system shall allow users to save changes made to a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Auto-save frequency, manual save button, confirmation]\n\n### 3.1.5 Delete [Data Entity]\n- **ID:** REQ-[ENTITY]-DELETE-XXX\n- **Description:** The system shall allow users with appropriate permissions to delete a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Confirmation prompt, cascading deletion, soft vs hard delete]\n\n### 3.1.6 [Data Entity] State Transitions (Optional)\n- **ID:** REQ-[ENTITY]-STATE-XXX\n- **Description:** The system shall support transitions between the following states for a [Data Entity]: [List states, e.g., Draft, Pending, Approved, Archived].\n- **Acceptance Criteria:** [List criteria, e.g., Permitted transitions, trigger conditions, required permissions]",
+      "createdAt": "2025-07-09T04:22:18.502Z",
+      "updatedAt": "2025-07-09T04:22:18.502Z",
+      "createdBy": "User",
+      "updatedBy": "User"
+    },
+    {
+      "id": "PA-E5F6G7H8",
+      "name": "External API Integration Risk",
+      "type": "Risk Playbook",
+      "description": "Describes the common risks associated with integrating external third-party APIs and provides mitigation strategies.",
+      "content": "## Risk Playbook: External API Integration\n\n- **Risk ID:** RISK-API-INT-XXX\n- **Risk Name:** Changes in External API Functionality or Availability\n- **Description:** The system depends on external third-party APIs (e.g., Gemini, GitHub). Changes to these APIs (breaking changes, deprecation, rate limits, downtime) could cause system functionality to fail or degrade.\n- **Category:** External, Technical\n- **Likelihood:** Medium\n- **Impact:** High\n- **Risk Level:** High\n\n### Potential Triggers:\n- API provider releases a new version with breaking changes.\n- API provider deprecates an old API version.\n- API experiences unexpected downtime or performance issues.\n- System usage exceeds API rate limits.\n- API provider changes terms of service or authentication methods.\n\n### Mitigation Steps:\n1.  **Monitoring:** Implement proactive monitoring of external API status and performance.\n2.  **Versioning:** Utilize API versioning whenever possible and plan for migration to newer versions.\n3.  **Abstraction Layer:** Implement an abstraction layer or facade pattern to isolate system code from direct API calls, making it easier to swap or adapt APIs.\n4.  **Graceful Degradation:** Design features to degrade gracefully if an API is unavailable or returns errors (e.g., provide cached results, display informative error messages).\n5.  **Rate Limit Handling:** Implement logic to detect and handle API rate limits, including retries with exponential backoff.\n6.  **API Documentation & Communication:** Regularly review API provider documentation and subscribe to their status/update notifications.\n7.  **Testing:** Include tests specifically for API integration points, especially after API provider announcements or suspected changes.\n8.  **Alternative APIs/Fallbacks:** Identify potential alternative APIs or fallback mechanisms where critical functionality depends on a single external API.\n9.  **Local Caching:** Implement local caching for frequently accessed data from the API to reduce calls and dependency on real-time availability.\n\n### Contingency Plan:\n- If an API experiences prolonged downtime or a severe breaking change, communicate impact to stakeholders, activate graceful degradation measures, and prioritize fixing or migrating the integration.",
+      "createdAt": "2025-07-09T04:22:18.503Z",
+      "updatedAt": "2025-07-09T04:22:18.503Z",
+      "createdBy": "User",
+      "updatedBy": "User"
+    },
+    {
+      "id": "PA-I9J0K1L2",
+      "name": "Data Import/Export Mechanism",
+      "type": "Solution Blueprint",
+      "description": "High-level technical approach for designing and implementing functionality to import data into the system and export data out, including format considerations and error handling.",
+      "content": "## Solution Blueprint: Data Import/Export\n\nThis blueprint outlines the key considerations and steps for implementing data import and export features.\n\n### 1. Requirements Analysis:\n- Identify data entities to be imported/exported.\n- Determine supported file formats (e.g., CSV, JSON, XML, custom binary).\n- Define data mapping requirements (how source/target fields map to system fields).\n- Specify volume and performance expectations.\n- Define security and access control requirements.\n- Determine error handling and reporting needs.\n\n### 2. Design Considerations:\n- **Format Handling:** Implement parsers/serializers for supported formats.\n- **Mapping:** Design a flexible mapping mechanism (manual UI, configuration files, auto-mapping).\n- **Validation:** Define validation rules for incoming data (schema, data types, constraints).\n- **Processing:** Decide on processing strategy (batch processing, streaming, background jobs).\n- **Error Handling:** Design mechanisms to log errors, report failures to the user, and handle partial successes/failures.\n- **Performance:** Consider chunking data, asynchronous processing, and database indexing for large datasets.\n- **Security:** Ensure data integrity, confidentiality, and proper authentication/authorization.\n- **User Interface:** Design clear UI for selecting files, mapping fields, tracking progress, and viewing results/errors.\n\n### 3. Implementation Steps:\n1. Develop data parsers/serializers for required formats.\n2. Implement data validation logic based on system schema and business rules.\n3. Build the data mapping interface or configuration.\n4. Implement the core import/export processing logic (reading, transforming, validating, writing).\n5. Integrate with background job processing system if asynchronous operations are needed.\n6. Develop user interface components for initiating and monitoring imports/exports.\n7. Implement error logging and reporting features.\n8. Write unit and integration tests for import/export paths.\n\n### 4. Testing:\n- **Unit Tests:** Test parsers, serializers, validation rules.\n- **Integration Tests:** Test the end-to-end import/export flow with various data sets and formats.\n- **Performance Tests:** Test with large volumes of data.\n- **Error Handling Tests:** Test with invalid data, corrupted files, edge cases.\n- **Security Tests:** Test access controls and data integrity.\n\n### 5. Deployment & Monitoring:\n- Deploy the import/export features.\n- Monitor system resources during processing.\n- Monitor error logs for import/export failures.",
+      "createdAt": "2025-07-09T04:22:18.503Z",
+      "updatedAt": "2025-07-09T04:22:18.503Z",
+      "createdBy": "User",
+      "updatedBy": "User"
+    },
+    {
+      "id": "PA-M3N4O5P6",
+      "name": "Application Performance Testing",
+      "type": "Test Strategy",
+      "description": "Standard approach for planning and executing tests to measure and validate application performance characteristics, such as load time, response time, and resource usage.",
+      "content": "## Test Strategy: Application Performance\n\nThis strategy outlines the approach for testing the performance of the application to ensure it meets specified requirements (e.g., load times, response times) and performs acceptably under anticipated load.\n\n### 1. Objectives:\n- Verify that key application functions meet performance requirements (e.g., page load times, API response times).\n- Identify performance bottlenecks under various load conditions.\n- Ensure the application remains stable and responsive under peak load.\n- Measure resource utilization (CPU, memory, network) during testing.\n\n### 2. Scope:\n- **In Scope:** Key user flows, frequently accessed pages/features, critical API endpoints, features with known performance challenges.\n- **Out of Scope:** [Specify any areas not covered, e.g., third-party services outside of integration points].\n\n### 3. Performance Requirements:\n- Reference specific performance requirements (e.g., \"Application must load in under 3 seconds\", \"API X response time must be < 500ms\").\n- Define acceptable thresholds for response times, throughput, and resource utilization.\n\n### 4. Test Environment:\n- Production-like environment (hardware, software, network configuration).\n- Dedicated test environment to avoid impacting other activities.\n- Monitoring tools for capturing system metrics.\n\n### 5. Test Types:\n- **Load Testing:** Test the application under an expected level of load.\n- **Stress Testing:** Test the application beyond its normal operational capacity to find its breaking point.\n- **Endurance/Soak Testing:** Test the application under normal load for a prolonged period to detect issues like memory leaks.\n- **Spike Testing:** Test the application under sudden, large increases in load.\n- **Benchmark Testing:** Compare application performance against predefined benchmarks or previous versions.\n\n### 6. Test Data:\n- Realistic test data representing production data volume and distribution.\n- Sufficient data to execute tests without data generation becoming a bottleneck.\n\n### 7. Tools:\n- [List performance testing tools, e.g., JMeter, LoadRunner, k6, browser developer tools]\n- [List monitoring tools, e.g., Prometheus, Grafana, Application Performance Monitoring (APM) tools]\n\n### 8. Process:\n1.  **Identify Scenarios:** Define critical user journeys and transactions to be tested.\n2.  **Define Metrics:** Determine key performance indicators (KPIs) to measure (e.g., response time, throughput, error rate, resource usage).\n3.  **Create Test Scripts:** Develop automated scripts to simulate user load.\n4.  **Configure Environment:** Set up the test environment and monitoring tools.\n5.  **Execute Tests:** Run load, stress, endurance, spike tests.\n6.  **Analyze Results:** Review collected data, identify bottlenecks, compare against requirements/benchmarks.\n7.  **Report Findings:** Document results, issues, and recommendations.\n8.  **Retest:** After fixes or optimizations, re-execute relevant tests.",
+      "createdAt": "2025-07-09T04:22:18.503Z",
+      "updatedAt": "2025-07-09T04:22:18.503Z",
+      "createdBy": "User",
+      "updatedBy": "User"
+    }
+  ],
   "links": {
     "REQ-001": {
       "tests": [
@@ -1915,19 +2021,34 @@
     },
     "REQ-005": {
       "tests": [
-        "TC-005"
+        "TC-005",
+        "TC-006",
+        "TC-007"
       ],
       "risks": [
         "RISK-002"
       ],
-      "cis": [],
-      "issues": []
+      "cis": [
+        "CO-005"
+      ],
+      "issues": [
+        1
+      ]
     },
     "REQ-006": {
-      "tests": [],
+      "tests": [
+        "TC-008",
+        "TC-009",
+        "TC-010"
+      ],
       "risks": [],
-      "cis": [],
-      "issues": []
+      "cis": [
+        "CI-002",
+        "CO-005"
+      ],
+      "issues": [
+        1
+      ]
     }
   },
   "riskCiLinks": {
@@ -1938,11 +2059,578 @@
       "CI-004"
     ]
   },
-  "issueCiLinks": {},
-  "issueRiskLinks": {},
-  "assetLinks": {},
-  "assetUsage": {},
-  "auditLog": [],
+  "issueCiLinks": {
+    "1": [
+      "CO-005"
+    ]
+  },
+  "issueRiskLinks": {
+    "1": [
+      "RISK-001"
+    ]
+  },
+  "assetLinks": {
+    "PA-A1B2C3D4": {
+      "requirements": [],
+      "risks": [],
+      "cis": []
+    },
+    "PA-E5F6G7H8": {
+      "requirements": [],
+      "risks": [],
+      "cis": []
+    },
+    "PA-I9J0K1L2": {
+      "requirements": [],
+      "risks": [],
+      "cis": []
+    },
+    "PA-M3N4O5P6": {
+      "requirements": [],
+      "risks": [],
+      "cis": []
+    }
+  },
+  "assetUsage": {
+    "PA-A1B2C3D4": {
+      "usageCount": 0,
+      "lastUsed": "2025-07-09T04:22:18.502Z",
+      "generatedItems": []
+    },
+    "PA-E5F6G7H8": {
+      "usageCount": 0,
+      "lastUsed": "2025-07-09T04:22:18.503Z",
+      "generatedItems": []
+    },
+    "PA-I9J0K1L2": {
+      "usageCount": 0,
+      "lastUsed": "2025-07-09T04:22:18.503Z",
+      "generatedItems": []
+    },
+    "PA-M3N4O5P6": {
+      "usageCount": 0,
+      "lastUsed": "2025-07-09T04:22:18.503Z",
+      "generatedItems": []
+    }
+  },
+  "auditLog": [
+    {
+      "id": "beff7832-5580-48de-a00f-177821491c08",
+      "timestamp": "2025-07-09T04:22:18.503Z",
+      "actor": "User",
+      "eventType": "PROCESS_ASSET_CREATE",
+      "summary": "Created process asset PA-A1B2C3D4: \"User Data Lifecycle Management\" with 0 requirements, 0 risks, 0 CIs linked",
+      "details": {
+        "payload": {
+          "id": "PA-A1B2C3D4",
+          "name": "User Data Lifecycle Management",
+          "type": "Requirement Archetype",
+          "description": "Template for requirements related to the creation, reading, updating, deletion, saving, and potential lifecycle states of user-managed data entities within the system.",
+          "content": "## [Data Entity] Lifecycle Requirements\n\n### 3.1.1 Create [Data Entity]\n- **ID:** REQ-[ENTITY]-CREATE-XXX\n- **Description:** The system shall allow authenticated users to create a new [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Required fields, validation rules, default values]\n\n### 3.1.2 View [Data Entity]\n- **ID:** REQ-[ENTITY]-VIEW-XXX\n- **Description:** The system shall allow authenticated users to view an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Display format, required information displayed]\n\n### 3.1.3 Edit [Data Entity]\n- **ID:** REQ-[ENTITY]-EDIT-XXX\n- **Description:** The system shall allow authenticated users with appropriate permissions to edit an existing [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Editable fields, validation rules, error handling]\n\n### 3.1.4 Save [Data Entity]\n- **ID:** REQ-[ENTITY]-SAVE-XXX\n- **Description:** The system shall allow users to save changes made to a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Auto-save frequency, manual save button, confirmation]\n\n### 3.1.5 Delete [Data Entity]\n- **ID:** REQ-[ENTITY]-DELETE-XXX\n- **Description:** The system shall allow users with appropriate permissions to delete a [Data Entity].\n- **Acceptance Criteria:** [List criteria, e.g., Confirmation prompt, cascading deletion, soft vs hard delete]\n\n### 3.1.6 [Data Entity] State Transitions (Optional)\n- **ID:** REQ-[ENTITY]-STATE-XXX\n- **Description:** The system shall support transitions between the following states for a [Data Entity]: [List states, e.g., Draft, Pending, Approved, Archived].\n- **Acceptance Criteria:** [List criteria, e.g., Permitted transitions, trigger conditions, required permissions]",
+          "createdAt": "2025-07-09T04:22:18.502Z",
+          "updatedAt": "2025-07-09T04:22:18.502Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "links": {
+          "requirements": [],
+          "risks": [],
+          "cis": []
+        }
+      }
+    },
+    {
+      "id": "ed58dd86-d8fb-4836-bbb2-1da8f2634597",
+      "timestamp": "2025-07-09T04:22:18.503Z",
+      "actor": "User",
+      "eventType": "PROCESS_ASSET_CREATE",
+      "summary": "Created process asset PA-E5F6G7H8: \"External API Integration Risk\" with 0 requirements, 0 risks, 0 CIs linked",
+      "details": {
+        "payload": {
+          "id": "PA-E5F6G7H8",
+          "name": "External API Integration Risk",
+          "type": "Risk Playbook",
+          "description": "Describes the common risks associated with integrating external third-party APIs and provides mitigation strategies.",
+          "content": "## Risk Playbook: External API Integration\n\n- **Risk ID:** RISK-API-INT-XXX\n- **Risk Name:** Changes in External API Functionality or Availability\n- **Description:** The system depends on external third-party APIs (e.g., Gemini, GitHub). Changes to these APIs (breaking changes, deprecation, rate limits, downtime) could cause system functionality to fail or degrade.\n- **Category:** External, Technical\n- **Likelihood:** Medium\n- **Impact:** High\n- **Risk Level:** High\n\n### Potential Triggers:\n- API provider releases a new version with breaking changes.\n- API provider deprecates an old API version.\n- API experiences unexpected downtime or performance issues.\n- System usage exceeds API rate limits.\n- API provider changes terms of service or authentication methods.\n\n### Mitigation Steps:\n1.  **Monitoring:** Implement proactive monitoring of external API status and performance.\n2.  **Versioning:** Utilize API versioning whenever possible and plan for migration to newer versions.\n3.  **Abstraction Layer:** Implement an abstraction layer or facade pattern to isolate system code from direct API calls, making it easier to swap or adapt APIs.\n4.  **Graceful Degradation:** Design features to degrade gracefully if an API is unavailable or returns errors (e.g., provide cached results, display informative error messages).\n5.  **Rate Limit Handling:** Implement logic to detect and handle API rate limits, including retries with exponential backoff.\n6.  **API Documentation & Communication:** Regularly review API provider documentation and subscribe to their status/update notifications.\n7.  **Testing:** Include tests specifically for API integration points, especially after API provider announcements or suspected changes.\n8.  **Alternative APIs/Fallbacks:** Identify potential alternative APIs or fallback mechanisms where critical functionality depends on a single external API.\n9.  **Local Caching:** Implement local caching for frequently accessed data from the API to reduce calls and dependency on real-time availability.\n\n### Contingency Plan:\n- If an API experiences prolonged downtime or a severe breaking change, communicate impact to stakeholders, activate graceful degradation measures, and prioritize fixing or migrating the integration.",
+          "createdAt": "2025-07-09T04:22:18.503Z",
+          "updatedAt": "2025-07-09T04:22:18.503Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "links": {
+          "requirements": [],
+          "risks": [],
+          "cis": []
+        }
+      }
+    },
+    {
+      "id": "c36bd8ec-6bfb-466e-9472-1eecf9034c22",
+      "timestamp": "2025-07-09T04:22:18.503Z",
+      "actor": "User",
+      "eventType": "PROCESS_ASSET_CREATE",
+      "summary": "Created process asset PA-I9J0K1L2: \"Data Import/Export Mechanism\" with 0 requirements, 0 risks, 0 CIs linked",
+      "details": {
+        "payload": {
+          "id": "PA-I9J0K1L2",
+          "name": "Data Import/Export Mechanism",
+          "type": "Solution Blueprint",
+          "description": "High-level technical approach for designing and implementing functionality to import data into the system and export data out, including format considerations and error handling.",
+          "content": "## Solution Blueprint: Data Import/Export\n\nThis blueprint outlines the key considerations and steps for implementing data import and export features.\n\n### 1. Requirements Analysis:\n- Identify data entities to be imported/exported.\n- Determine supported file formats (e.g., CSV, JSON, XML, custom binary).\n- Define data mapping requirements (how source/target fields map to system fields).\n- Specify volume and performance expectations.\n- Define security and access control requirements.\n- Determine error handling and reporting needs.\n\n### 2. Design Considerations:\n- **Format Handling:** Implement parsers/serializers for supported formats.\n- **Mapping:** Design a flexible mapping mechanism (manual UI, configuration files, auto-mapping).\n- **Validation:** Define validation rules for incoming data (schema, data types, constraints).\n- **Processing:** Decide on processing strategy (batch processing, streaming, background jobs).\n- **Error Handling:** Design mechanisms to log errors, report failures to the user, and handle partial successes/failures.\n- **Performance:** Consider chunking data, asynchronous processing, and database indexing for large datasets.\n- **Security:** Ensure data integrity, confidentiality, and proper authentication/authorization.\n- **User Interface:** Design clear UI for selecting files, mapping fields, tracking progress, and viewing results/errors.\n\n### 3. Implementation Steps:\n1. Develop data parsers/serializers for required formats.\n2. Implement data validation logic based on system schema and business rules.\n3. Build the data mapping interface or configuration.\n4. Implement the core import/export processing logic (reading, transforming, validating, writing).\n5. Integrate with background job processing system if asynchronous operations are needed.\n6. Develop user interface components for initiating and monitoring imports/exports.\n7. Implement error logging and reporting features.\n8. Write unit and integration tests for import/export paths.\n\n### 4. Testing:\n- **Unit Tests:** Test parsers, serializers, validation rules.\n- **Integration Tests:** Test the end-to-end import/export flow with various data sets and formats.\n- **Performance Tests:** Test with large volumes of data.\n- **Error Handling Tests:** Test with invalid data, corrupted files, edge cases.\n- **Security Tests:** Test access controls and data integrity.\n\n### 5. Deployment & Monitoring:\n- Deploy the import/export features.\n- Monitor system resources during processing.\n- Monitor error logs for import/export failures.",
+          "createdAt": "2025-07-09T04:22:18.503Z",
+          "updatedAt": "2025-07-09T04:22:18.503Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "links": {
+          "requirements": [],
+          "risks": [],
+          "cis": []
+        }
+      }
+    },
+    {
+      "id": "dd5af30e-4781-4637-9360-3324d81de8d0",
+      "timestamp": "2025-07-09T04:22:18.503Z",
+      "actor": "User",
+      "eventType": "PROCESS_ASSET_CREATE",
+      "summary": "Created process asset PA-M3N4O5P6: \"Application Performance Testing\" with 0 requirements, 0 risks, 0 CIs linked",
+      "details": {
+        "payload": {
+          "id": "PA-M3N4O5P6",
+          "name": "Application Performance Testing",
+          "type": "Test Strategy",
+          "description": "Standard approach for planning and executing tests to measure and validate application performance characteristics, such as load time, response time, and resource usage.",
+          "content": "## Test Strategy: Application Performance\n\nThis strategy outlines the approach for testing the performance of the application to ensure it meets specified requirements (e.g., load times, response times) and performs acceptably under anticipated load.\n\n### 1. Objectives:\n- Verify that key application functions meet performance requirements (e.g., page load times, API response times).\n- Identify performance bottlenecks under various load conditions.\n- Ensure the application remains stable and responsive under peak load.\n- Measure resource utilization (CPU, memory, network) during testing.\n\n### 2. Scope:\n- **In Scope:** Key user flows, frequently accessed pages/features, critical API endpoints, features with known performance challenges.\n- **Out of Scope:** [Specify any areas not covered, e.g., third-party services outside of integration points].\n\n### 3. Performance Requirements:\n- Reference specific performance requirements (e.g., \"Application must load in under 3 seconds\", \"API X response time must be < 500ms\").\n- Define acceptable thresholds for response times, throughput, and resource utilization.\n\n### 4. Test Environment:\n- Production-like environment (hardware, software, network configuration).\n- Dedicated test environment to avoid impacting other activities.\n- Monitoring tools for capturing system metrics.\n\n### 5. Test Types:\n- **Load Testing:** Test the application under an expected level of load.\n- **Stress Testing:** Test the application beyond its normal operational capacity to find its breaking point.\n- **Endurance/Soak Testing:** Test the application under normal load for a prolonged period to detect issues like memory leaks.\n- **Spike Testing:** Test the application under sudden, large increases in load.\n- **Benchmark Testing:** Compare application performance against predefined benchmarks or previous versions.\n\n### 6. Test Data:\n- Realistic test data representing production data volume and distribution.\n- Sufficient data to execute tests without data generation becoming a bottleneck.\n\n### 7. Tools:\n- [List performance testing tools, e.g., JMeter, LoadRunner, k6, browser developer tools]\n- [List monitoring tools, e.g., Prometheus, Grafana, Application Performance Monitoring (APM) tools]\n\n### 8. Process:\n1.  **Identify Scenarios:** Define critical user journeys and transactions to be tested.\n2.  **Define Metrics:** Determine key performance indicators (KPIs) to measure (e.g., response time, throughput, error rate, resource usage).\n3.  **Create Test Scripts:** Develop automated scripts to simulate user load.\n4.  **Configure Environment:** Set up the test environment and monitoring tools.\n5.  **Execute Tests:** Run load, stress, endurance, spike tests.\n6.  **Analyze Results:** Review collected data, identify bottlenecks, compare against requirements/benchmarks.\n7.  **Report Findings:** Document results, issues, and recommendations.\n8.  **Retest:** After fixes or optimizations, re-execute relevant tests.",
+          "createdAt": "2025-07-09T04:22:18.503Z",
+          "updatedAt": "2025-07-09T04:22:18.503Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "links": {
+          "requirements": [],
+          "risks": [],
+          "cis": []
+        }
+      }
+    },
+    {
+      "id": "6ecf362d-cfe0-4e32-af75-ceffe942d762",
+      "timestamp": "2025-07-09T04:26:05.887Z",
+      "actor": "User",
+      "eventType": "CI_CREATE",
+      "summary": "Created CI CO-005: \"Data Import/Export Mechanism\"",
+      "details": {
+        "payload": {
+          "id": "CO-005",
+          "name": "Data Import/Export Mechanism",
+          "type": "Software Component",
+          "version": "1",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:26:05.887Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        }
+      }
+    },
+    {
+      "id": "93a52277-7af1-4ffe-b7d5-2bd151c72b83",
+      "timestamp": "2025-07-09T04:29:52.506Z",
+      "actor": "User",
+      "eventType": "CI_UPDATE",
+      "summary": "Updated CI CO-005: \"GitHub Audit Log Persistence Service\"",
+      "details": {
+        "before": {
+          "id": "CO-005",
+          "name": "Data Import/Export Mechanism",
+          "type": "Software Component",
+          "version": "1",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:26:05.887Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "after": {
+          "id": "CO-005",
+          "name": "GitHub Audit Log Persistence Service",
+          "type": "Software Component",
+          "version": "1",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:29:52.506Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        }
+      }
+    },
+    {
+      "id": "f7145da2-3b2d-4a95-aabc-e25d745c7793",
+      "timestamp": "2025-07-09T04:30:59.748Z",
+      "actor": "User",
+      "eventType": "CI_UPDATE",
+      "summary": "Updated CI CO-005: \"GitHub Audit Log Persistence Service\"",
+      "details": {
+        "before": {
+          "id": "CO-005",
+          "name": "GitHub Audit Log Persistence Service",
+          "type": "Software Component",
+          "version": "1",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:29:52.506Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "after": {
+          "id": "CO-005",
+          "name": "GitHub Audit Log Persistence Service",
+          "type": "Software Component",
+          "version": "1.0.0",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:30:59.747Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        }
+      }
+    },
+    {
+      "id": "785932b1-3fa3-4deb-9575-83e60b4279b0",
+      "timestamp": "2025-07-09T04:32:33.289Z",
+      "actor": "User",
+      "eventType": "CI_UPDATE",
+      "summary": "Updated CI CO-005: \"GitHub Audit Log Persistence Service\"",
+      "details": {
+        "before": {
+          "id": "CO-005",
+          "name": "GitHub Audit Log Persistence Service",
+          "type": "Software Component",
+          "version": "1.0.0",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:30:59.747Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        },
+        "after": {
+          "id": "CO-005",
+          "name": "GitHub Audit Log Persistence Service",
+          "type": "Software Component",
+          "version": "1.0.0",
+          "status": "In Development",
+          "createdAt": "2025-07-09T04:26:05.887Z",
+          "updatedAt": "2025-07-09T04:32:33.289Z",
+          "createdBy": "User",
+          "updatedBy": "User"
+        }
+      }
+    },
+    {
+      "id": "8b163dae-9f1d-491e-b4f0-3a25906fc308",
+      "timestamp": "2025-07-09T04:33:26.990Z",
+      "actor": "User",
+      "eventType": "REQUIREMENT_UPDATE",
+      "summary": "Updated requirement REQ-005",
+      "details": {
+        "before": {
+          "requirement": {
+            "id": "REQ-005",
+            "description": "The system shall allow project data export and import.",
+            "status": "Implemented",
+            "priority": "Medium",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2024-01-01T12:00:00.000Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [
+              "TC-005"
+            ],
+            "risks": [
+              "RISK-002"
+            ],
+            "cis": [],
+            "issues": []
+          }
+        },
+        "after": {
+          "requirement": {
+            "id": "REQ-005",
+            "description": "The system shall allow project data export and import.",
+            "priority": "Medium",
+            "status": "Implemented",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2025-07-09T04:33:26.990Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [
+              "TC-005"
+            ],
+            "cis": [
+              "CO-005"
+            ],
+            "issues": []
+          }
+        }
+      }
+    },
+    {
+      "id": "9e14aea9-b87d-46c5-8499-d5984d72e226",
+      "timestamp": "2025-07-09T04:34:38.098Z",
+      "actor": "User",
+      "eventType": "PROJECT_UPDATE",
+      "summary": "Project name changed from \"My Awesome Project\" to \"Meta management evalution\"",
+      "details": {
+        "before": {
+          "projectName": "My Awesome Project"
+        },
+        "after": {
+          "projectName": "Meta management evalution"
+        }
+      }
+    },
+    {
+      "id": "537e052c-b387-4cab-9b54-155724f85c73",
+      "timestamp": "2025-07-09T04:37:15.974Z",
+      "actor": "AI",
+      "eventType": "TEST_CASE_CREATE",
+      "summary": "Created test case TC-006: \"Verify that project data can be successfully exported.\"",
+      "details": {
+        "payload": {
+          "id": "TC-006",
+          "description": "Verify that project data can be successfully exported.",
+          "gherkin": "Feature: Project Data Export\n  Scenario: Successful data export\n    Given a project exists with data\n    When the user initiates project data export\n    Then the system should generate a file containing the project data.",
+          "status": "Not Run",
+          "createdAt": "2025-07-09T04:37:15.974Z",
+          "updatedAt": "2025-07-09T04:37:15.974Z",
+          "createdBy": "AI",
+          "updatedBy": "AI"
+        }
+      }
+    },
+    {
+      "id": "d8193f4a-8c23-4585-a585-379a678d8d8a",
+      "timestamp": "2025-07-09T04:37:18.423Z",
+      "actor": "AI",
+      "eventType": "TEST_CASE_CREATE",
+      "summary": "Created test case TC-007: \"Verify that previously exported project data can be successfully imported.\"",
+      "details": {
+        "payload": {
+          "id": "TC-007",
+          "description": "Verify that previously exported project data can be successfully imported.",
+          "gherkin": "Feature: Project Data Import\n  Scenario: Successful data import\n    Given an exported project data file exists\n    And the system is ready for import\n    When the user initiates project data import using the file\n    Then the system should import the project data successfully\n    And the imported data should match the exported data.",
+          "status": "Not Run",
+          "createdAt": "2025-07-09T04:37:18.423Z",
+          "updatedAt": "2025-07-09T04:37:18.423Z",
+          "createdBy": "AI",
+          "updatedBy": "AI"
+        }
+      }
+    },
+    {
+      "id": "13abe2f7-a6ad-42db-aeb8-e0ea87f74615",
+      "timestamp": "2025-07-09T04:37:23.496Z",
+      "actor": "User",
+      "eventType": "REQUIREMENT_UPDATE",
+      "summary": "Updated requirement REQ-005",
+      "details": {
+        "before": {
+          "requirement": {
+            "id": "REQ-005",
+            "description": "The system shall allow project data export and import.",
+            "priority": "Medium",
+            "status": "Implemented",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2025-07-09T04:33:26.990Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [
+              "TC-005"
+            ],
+            "risks": [
+              "RISK-002"
+            ],
+            "cis": [
+              "CO-005"
+            ],
+            "issues": []
+          }
+        },
+        "after": {
+          "requirement": {
+            "id": "REQ-005",
+            "description": "The system shall allow project data export and import.",
+            "priority": "Medium",
+            "status": "Implemented",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2025-07-09T04:37:23.496Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [
+              "TC-005",
+              "TC-006",
+              "TC-007"
+            ],
+            "cis": [
+              "CO-005"
+            ],
+            "issues": [
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ee92520b-ace7-44dd-8615-dd816fecbb65",
+      "timestamp": "2025-07-09T04:40:53.170Z",
+      "actor": "AI",
+      "eventType": "TEST_CASE_CREATE",
+      "summary": "Created test case TC-008: \"Verify that the traceability matrix view can be accessed.\"",
+      "details": {
+        "payload": {
+          "id": "TC-008",
+          "description": "Verify that the traceability matrix view can be accessed.",
+          "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Accessing the traceability matrix page\n    Given the user is logged into the system\n    When the user navigates to the traceability matrix section\n    Then the system should display the traceability matrix view.",
+          "status": "Not Run",
+          "createdAt": "2025-07-09T04:40:53.170Z",
+          "updatedAt": "2025-07-09T04:40:53.170Z",
+          "createdBy": "AI",
+          "updatedBy": "AI"
+        }
+      }
+    },
+    {
+      "id": "bb5c7528-6db1-4126-a5a8-1e252589dedb",
+      "timestamp": "2025-07-09T04:40:54.660Z",
+      "actor": "AI",
+      "eventType": "TEST_CASE_CREATE",
+      "summary": "Created test case TC-009: \"Verify that the displayed traceability matrix contains data.\"",
+      "details": {
+        "payload": {
+          "id": "TC-009",
+          "description": "Verify that the displayed traceability matrix contains data.",
+          "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Displaying a populated traceability matrix\n    Given the traceability matrix view is displayed\n    When the system loads the traceability data\n    Then the matrix should not be empty and should display traceability links.",
+          "status": "Not Run",
+          "createdAt": "2025-07-09T04:40:54.660Z",
+          "updatedAt": "2025-07-09T04:40:54.660Z",
+          "createdBy": "AI",
+          "updatedBy": "AI"
+        }
+      }
+    },
+    {
+      "id": "ca1c77aa-24a4-4b20-86fc-8ecf9dabf71b",
+      "timestamp": "2025-07-09T04:40:56.767Z",
+      "actor": "AI",
+      "eventType": "TEST_CASE_CREATE",
+      "summary": "Created test case TC-010: \"Verify that requirement to test case traceability is displayed in the matrix.\"",
+      "details": {
+        "payload": {
+          "id": "TC-010",
+          "description": "Verify that requirement to test case traceability is displayed in the matrix.",
+          "gherkin": "Feature: Traceability Matrix Display\n  Scenario: Verifying specific traceability links\n    Given the traceability matrix view is displayed\n    And the system contains linked requirements and test cases\n    When the user examines the matrix\n    Then links between requirements (e.g., from SRS) and test cases (e.g., from STP) should be visible.",
+          "status": "Not Run",
+          "createdAt": "2025-07-09T04:40:56.767Z",
+          "updatedAt": "2025-07-09T04:40:56.767Z",
+          "createdBy": "AI",
+          "updatedBy": "AI"
+        }
+      }
+    },
+    {
+      "id": "daa919ed-2b49-40ed-a08b-25b37a41cff5",
+      "timestamp": "2025-07-09T04:41:11.329Z",
+      "actor": "User",
+      "eventType": "REQUIREMENT_UPDATE",
+      "summary": "Updated requirement REQ-006",
+      "details": {
+        "before": {
+          "requirement": {
+            "id": "REQ-006",
+            "description": "The system shall display a traceability matrix.",
+            "status": "Proposed",
+            "priority": "Low",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2024-01-01T12:00:00.000Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [],
+            "risks": [],
+            "cis": [],
+            "issues": []
+          }
+        },
+        "after": {
+          "requirement": {
+            "id": "REQ-006",
+            "description": "The system shall display a traceability matrix.",
+            "priority": "Low",
+            "status": "Proposed",
+            "createdAt": "2024-01-01T12:00:00.000Z",
+            "updatedAt": "2025-07-09T04:41:11.329Z",
+            "createdBy": "User",
+            "updatedBy": "User"
+          },
+          "links": {
+            "tests": [
+              "TC-008",
+              "TC-009",
+              "TC-010"
+            ],
+            "cis": [
+              "CI-002",
+              "CO-005"
+            ],
+            "issues": [
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "fd2f4ee6-68b0-4440-8c8d-98af2029cce1",
+      "timestamp": "2025-07-09T04:43:03.510Z",
+      "actor": "User",
+      "eventType": "ISSUE_LINK_UPDATE",
+      "summary": "Updated traceability links for GitHub Issue #1",
+      "details": {
+        "issueNumber": 1,
+        "before": {
+          "reqs": [
+            "REQ-005",
+            "REQ-006"
+          ],
+          "cis": [],
+          "risks": []
+        },
+        "after": {
+          "reqs": [
+            "REQ-006",
+            "REQ-005"
+          ],
+          "cis": [
+            "CO-005"
+          ],
+          "risks": [
+            "RISK-001"
+          ]
+        }
+      }
+    }
+  ],
   "abTests": [],
   "assetEvolutionHistory": [],
   "architecturalViews": [],
